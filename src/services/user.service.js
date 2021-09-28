@@ -1,5 +1,5 @@
 const userModel = require('../models/user.model');
-const BaseService = require('../services/baseService')
+const BaseService = require('../services/baseService');
 
 class UserService extends BaseService {
     constructor() {
@@ -9,8 +9,21 @@ class UserService extends BaseService {
         try {
             const result = await this.create(payload);
             return result;
+        } catch (e) {
+            return null;
         }
-        catch (e) {
+    }
+    async login(payload) {
+        try {
+            const result = await this.findOne({
+                userName: payload.userName,
+                password: payload.password,
+            });
+            if (result) {
+                return result;
+            }
+            return null;
+        } catch (e) {
             return null;
         }
     }

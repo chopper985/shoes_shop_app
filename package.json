@@ -12,7 +12,8 @@
     "start:prod": "node dist",
     "dev": "nodemon src/server.js",
     "pm2": "yarn build && yarn pm2:start",
-    "pm2:start": "pm2 start ecosystem.config.js"
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "MIT",
@@ -23,10 +24,17 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.8"
   },
   "devDependencies": {
+    "husky": "^7.0.2",
+    "lint-staged": "^11.1.2",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.13",
+    "prettier": "^2.4.1"
+  },
+  "lint-staged": {
+    "*.{js,css,md}": "prettier --single-quote --trailing-comma all --tab-width 4 --write"
   }
 }

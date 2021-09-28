@@ -1,42 +1,53 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const User = new Schema(
+const Car = new Schema(
     {
-        fullName: {
-            type: String,
-            default: '',
-        },
-        userName: {
-            type: String,
-            default: '',
-        },
-        address: {
-            type: String,
-            default: '',
-        },
-        gender: {
-            type: String,
-            default: '',
-        },
-        phoneNumber: {
-            type: String,
-            default: '',
-        },
-        email: {
-            type: String,
-            default: '',
-        },
-        password: {
-            type: String,
-            default: '',
-        },
-        // avatar: {
+        // idCarCompany: {
         //     type: String, default: ''
         // },
-        role: {
+        // idCar: {
+        //     type: String, default: ''
+        // },
+        carName: {
             type: String,
-            default: 'USER',
+            default: '',
+        },
+        colour: {
+            type: String,
+            default: '',
+        },
+        vehicles: {
+            type: String,
+            default: '',
+        },
+        origin: {
+            type: String,
+            default: '',
+        },
+        gear: {
+            type: String,
+            default: '',
+        },
+        yearOfManufacture: {
+            type: String,
+            default: '',
+        },
+        numberOfSeats: {
+            type: String,
+            default: '',
+        },
+        vehicleCondition: {
+            type: String,
+            default: '',
+        },
+        designs: {
+            type: String,
+            default: '',
+        },
+        price: {
+            type: String,
+            default: '',
         },
         // shippingFee: {
         //     type: String, default: ''
@@ -48,4 +59,4 @@ const User = new Schema(
     { timestamps: true },
 );
 
-module.exports = mongoose.model('User', User);
+module.exports = mongoose.model('Car', Car);
