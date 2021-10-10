@@ -3,9 +3,11 @@ const UserRouter = require('./user.route');
 const CarRouter = require('./car.route');
 const CarCompanyRouter = require('./carCompany.route');
 const AboutRouter = require('./about.route');
+const ScheDuleRouter = require('./schedule.route');
 
 const router = express.Router();
 
+router.use('/schedule', ScheDuleRouter);
 router.use('/about', AboutRouter);
 router.use('/company', CarCompanyRouter);
 router.use('/car', CarRouter);
