@@ -5,45 +5,37 @@ const User = new Schema(
     {
         fullName: {
             type: String,
-            default: '',
         },
         userName: {
             type: String,
-            default: '',
+            unique: true,
+            required: true,
+            minLength: 6,
+            maxLength: 32,
         },
         address: {
             type: String,
-            default: '',
         },
         gender: {
             type: String,
-            default: '',
         },
         phoneNumber: {
             type: String,
-            default: '',
+            required: true,
         },
         email: {
             type: String,
-            default: '',
+            required: true,
         },
         password: {
             type: String,
-            default: '',
+            minLength: 6,
+            required: true,
         },
-        // avatar: {
-        //     type: String, default: ''
-        // },
         role: {
             type: String,
             default: 'USER',
         },
-        // shippingFee: {
-        //     type: String, default: ''
-        // },
-        // fcm: {
-        //     type: String, default: ''
-        // }
     },
     { timestamps: true },
 );

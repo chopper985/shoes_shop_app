@@ -11,11 +11,14 @@ class BaseService {
     async findByIdAndUpdate(id, item) {
         return this._model.findByIdAndUpdate(id, item, { new: true });
     }
-    async findAll(filter = {}) {
-        return this._model.find(filter);
+    async findAll() {
+        return this._model.find();
     }
     async create(item) {
         return this._model.create(item);
+    }
+    async findByIdAndRemove(id) {
+        return this._model.findByIdAndRemove(id);
     }
 }
 module.exports = BaseService;

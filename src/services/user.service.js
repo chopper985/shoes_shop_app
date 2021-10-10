@@ -1,5 +1,6 @@
 const userModel = require('../models/user.model');
 const BaseService = require('../services/baseService');
+const bcrypt = require('bcrypt');
 
 class UserService extends BaseService {
     constructor() {
@@ -13,14 +14,41 @@ class UserService extends BaseService {
             return null;
         }
     }
+    async getAllUser() {
+        try {
+            const result = await this.findAll();
+            console.log(result);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async getUser(id) {
+        try {
+            const result = await this.findById(id);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async login(payload) {
         try {
             const result = await this.findOne({
                 userName: payload.userName,
-                password: payload.password,
             });
+            console.log(result.password);
+            console.log(payload.password);
             if (result) {
-                return result;
+                const validPassword = await bcrypt.compare(
+                    payload.password,
+                    result.password,
+                );
+                console.log(validPassword);
+                if (validPassword) {
+                    return result;
+                } else {
+                    return null;
+                }
             }
             return null;
         } catch (e) {

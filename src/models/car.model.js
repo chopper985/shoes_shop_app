@@ -3,12 +3,6 @@ const Schema = mongoose.Schema;
 
 const Car = new Schema(
     {
-        // idCarCompany: {
-        //     type: String, default: ''
-        // },
-        // idCar: {
-        //     type: String, default: ''
-        // },
         carName: {
             type: String,
             default: '',
@@ -17,7 +11,7 @@ const Car = new Schema(
             type: String,
             default: '',
         },
-        vehicles: {
+        carLife: {
             type: String,
             default: '',
         },
@@ -25,11 +19,7 @@ const Car = new Schema(
             type: String,
             default: '',
         },
-        gear: {
-            type: String,
-            default: '',
-        },
-        yearOfManufacture: {
+        body: {
             type: String,
             default: '',
         },
@@ -37,24 +27,70 @@ const Car = new Schema(
             type: String,
             default: '',
         },
-        vehicleCondition: {
+        yearOfManufacture: {
             type: String,
             default: '',
         },
-        designs: {
+        longs: {
+            type: String,
+            default: '',
+        },
+        overallSize: {
+            type: String,
+            default: '',
+        },
+        fuelConsumption: {
+            type: String,
+            default: '',
+        },
+        topSpeed: {
+            type: String,
+            default: '',
+        },
+        airBag: {
+            type: String,
+            default: '',
+        },
+        seat: {
+            type: String,
+            default: '',
+        },
+        engineType: {
+            type: String,
+            default: '',
+        },
+        tireParameters: {
+            type: String,
+            default: '',
+        },
+        frontBrake: {
+            type: String,
+            default: '',
+        },
+        wattage: {
+            type: String,
+            default: '',
+        },
+        gear: {
+            type: String,
+            default: '',
+        },
+        status: {
             type: String,
             default: '',
         },
         price: {
+            type: Number,
+            default: '',
+        },
+        CarInformation: {
             type: String,
             default: '',
         },
-        // shippingFee: {
-        //     type: String, default: ''
-        // },
-        // fcm: {
-        //     type: String, default: ''
-        // }
+        Image: {
+            type: String,
+            default: '',
+        },
     },
     { timestamps: true },
 );
