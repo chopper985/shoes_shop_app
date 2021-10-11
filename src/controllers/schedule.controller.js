@@ -7,6 +7,8 @@ class ScheduleController {
     async createSchedule(req, res) {
         try {
             const result = await ScheduleService.create(req.body);
+            result._idUser = req.value.body.decodeToken._id;
+            result.save();
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
@@ -48,7 +50,7 @@ class ScheduleController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/schedule/:id
+    //[GET] /api/schedule/schedule
     async getSchedule(req, res) {
         try {
             const result = await ScheduleService.getSchedule(req.query.getId);
@@ -91,6 +93,31 @@ class ScheduleController {
                 201,
                 'Get Schedule Success!',
             );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[GET] /api/schedule/user
+    async getUserSchedule(req, res) {
+        try {
+            ScheduleService.getUserSchedule({
+                _idUser: req.value.body.decodeToken._id,
+            }).then((schedule) => {
+                if (schedule === null) {
+                    return BaseController.sendSuccess(
+                        res,
+                        null,
+                        300,
+                        'Get All Failed!',
+                    );
+                }
+                return BaseController.sendSuccess(
+                    res,
+                    schedule,
+                    201,
+                    'Get All Success!',
+                );
+            });
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

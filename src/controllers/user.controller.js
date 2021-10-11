@@ -105,6 +105,26 @@ class UserController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[POST] /api/user/
+    async updateUser(req, res) {
+        try {
+            const car = await CarService.updateUser(
+                req.query.updateId,
+                req.body,
+            );
+            if (car === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Update  Failed!',
+                );
+            }
+            return BaseController.sendSuccess(res, car, 201, 'Update Success!');
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
 }
 
 module.exports = new UserController();

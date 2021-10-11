@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const Schedule = new Schema(
     {
+        _idUser: {
+            type: String,
+            default: '',
+        },
         userName: {
             type: String,
             default: '',

@@ -38,5 +38,13 @@ class ScheduleService extends BaseService {
             return null;
         }
     }
+    async getUserSchedule(filter = {}) {
+        try {
+            const result = await this.find((filter = {}));
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 module.exports = new ScheduleService();
