@@ -14,6 +14,9 @@ class BaseService {
     async findAll() {
         return this._model.find();
     }
+    async search(filter = {}) {
+        return this._model.find(filter);
+    }
     async create(item) {
         return this._model.create(item);
     }

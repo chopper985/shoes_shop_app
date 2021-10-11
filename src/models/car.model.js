@@ -7,6 +7,10 @@ const Car = new Schema(
             type: String,
             default: '',
         },
+        companyName: {
+            type: String,
+            default: '',
+        },
         colour: {
             type: String,
             default: '',

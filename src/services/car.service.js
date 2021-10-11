@@ -38,5 +38,29 @@ class CarService extends BaseService {
             return null;
         }
     }
+    async searchCompanyCar(filter = {}) {
+        try {
+            const result = await this.search(filter);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async searchCarName(filter = {}) {
+        try {
+            const result = await this.search(filter);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async updateCar(id, item) {
+        try {
+            const result = await this.findByIdAndUpdate(id, item);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 module.exports = new CarService();
