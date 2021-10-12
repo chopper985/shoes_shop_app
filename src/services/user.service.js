@@ -55,5 +55,21 @@ class UserService extends BaseService {
             return null;
         }
     }
+    async updateUser(id, item) {
+        try {
+            const result = await this.findByIdAndUpdate(id, item);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async reserPassword(filter = {}) {
+        try {
+            const result = await this.findOne(filter);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 module.exports = new UserService();

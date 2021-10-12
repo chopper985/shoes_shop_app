@@ -1,8 +1,9 @@
 const UserService = require('../services/user.service');
 const BaseController = require('./baseController');
 var jwt = require('jsonwebtoken');
-var { JWT_SECRET } = require('../commons/configs/env');
+var { JWT_SECRET, BASE_URL } = require('../commons/configs/env');
 const bcrypt = require('bcrypt');
+const SendEmail = require('../validators/sendEmail');
 
 class UserController {
     constructor() {}
@@ -108,11 +109,11 @@ class UserController {
     //[POST] /api/user/
     async updateUser(req, res) {
         try {
-            const car = await CarService.updateUser(
-                req.query.updateId,
+            const user = await UserService.updateUser(
+                req.value.body.decodeToken._id,
                 req.body,
             );
-            if (car === null) {
+            if (user === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
@@ -120,7 +121,59 @@ class UserController {
                     'Update  Failed!',
                 );
             }
-            return BaseController.sendSuccess(res, car, 201, 'Update Success!');
+            return BaseController.sendSuccess(
+                res,
+                user,
+                201,
+                'Update Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[POST] /api/user/forgotPassword
+    async resetPassword(req, res) {
+        try {
+            const user = await UserService.reserPassword({
+                email: req.body.email,
+            });
+            if (user) {
+                var token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+                    expiresIn: '5m',
+                });
+                return SendEmail(
+                    user.email,
+                    'Quên mật khẩu!',
+                    'Để thay đổi mật khẩu ban phải truy cập vào link bên dưới để đổi mật khẩu ' +
+                        `${BASE_URL}/password_reset?user=${user.email}&&token=${token}`,
+                );
+            }
+            return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[POST]
+    async changePassword(req, res) {
+        try {
+            const token = jwt.verify(req.query.token, JWT_SECRET);
+            const user = await UserService.findById(token._id);
+            if (user === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Update  Failed!',
+                );
+            }
+            user.password = await bcrypt.hash(req.body.newPassword, salt);
+            user.save();
+            return BaseController.sendSuccess(
+                res,
+                user,
+                201,
+                'Update Success!',
+            );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

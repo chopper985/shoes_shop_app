@@ -18,23 +18,28 @@ const verifyToken = (req, res, next) => {
             return;
         }
         const token = header.split(' ')[1];
-        jwt.verify(token, JWT_SECRET, (err, decodedFromToken) => {
-            if (err) {
-                res.status(403).json({
-                    data: {
-                        tokenVerificationData: {
-                            access: false,
-                            message: 'Failed to verify token',
+        const decode = jwt.verify(
+            token,
+            JWT_SECRET,
+            (err, decodedFromToken) => {
+                if (err) {
+                    res.status(403).json({
+                        data: {
+                            tokenVerificationData: {
+                                access: false,
+                                message: 'Failed to verify token',
+                            },
                         },
-                    },
-                });
-                return;
-            } else {
-                console.log(req.body);
-                req.value = { body: { decodeToken: decodedFromToken, token } };
-                next();
-            }
-        });
+                    });
+                    return;
+                } else {
+                    req.value = {
+                        body: { decodeToken: decodedFromToken, token },
+                    };
+                    next();
+                }
+            },
+        );
     } catch (error) {
         console.log(error);
         return BaseController.sendError(res, 'Unauthorization');
