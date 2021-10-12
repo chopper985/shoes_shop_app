@@ -145,7 +145,7 @@ class UserController {
                     user.email,
                     'Quên mật khẩu!',
                     'Để thay đổi mật khẩu ban phải truy cập vào link bên dưới để đổi mật khẩu ' +
-                        `${BASE_URL}/password_reset?user=${user.email}&&token=${token}`,
+                        `${BASE_URL}/change_password?user=${user.email}&&token=${token}`,
                 );
             }
             return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
@@ -166,6 +166,7 @@ class UserController {
                     'Update  Failed!',
                 );
             }
+            var salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(req.body.newPassword, salt);
             user.save();
             return BaseController.sendSuccess(
