@@ -12,14 +12,14 @@ class AboutController {
                     res,
                     null,
                     300,
-                    'Create User Failed!',
+                    'Create Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 201,
-                'Create User Success!',
+                'Create Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
@@ -33,15 +33,29 @@ class AboutController {
                     res,
                     null,
                     300,
-                    'Get User Failed!',
+                    'Get Failed!',
                 );
             }
-            return BaseController.sendSuccess(
-                res,
-                about,
-                201,
-                'Get User Success!',
+            return BaseController.sendSuccess(res, about, 201, 'Get Success!');
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    async updateAbout(req, res) {
+        try {
+            const about = await AboutService.updateAbout(
+                req.query.aboutId,
+                req.body,
             );
+            if (about === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Failed!',
+                );
+            }
+            return BaseController.sendSuccess(res, about, 201, 'Get Success!');
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

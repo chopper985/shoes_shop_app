@@ -21,5 +21,13 @@ class AboutService extends BaseService {
             return null;
         }
     }
+    async updateAbout(id, item) {
+        try {
+            const result = await this.findByIdAndUpdate(id, item);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 module.exports = new AboutService();

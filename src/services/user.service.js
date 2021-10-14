@@ -36,14 +36,11 @@ class UserService extends BaseService {
             const result = await this.findOne({
                 userName: payload.userName,
             });
-            console.log(result.password);
-            console.log(payload.password);
             if (result) {
                 const validPassword = await bcrypt.compare(
                     payload.password,
                     result.password,
                 );
-                console.log(validPassword);
                 if (validPassword) {
                     return result;
                 } else {
