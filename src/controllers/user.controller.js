@@ -158,6 +158,7 @@ class UserController {
                     user.email,
                     'Quên mật khẩu!',
                     `Mật khẩu mới của bạn là ${password}`,
+                    res,
                 );
             }
             return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
