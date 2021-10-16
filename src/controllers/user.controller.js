@@ -143,6 +143,13 @@ class UserController {
             const user = await UserService.reserPassword({
                 email: req.body.email,
             });
+            const password =
+                Math.floor(Math.random() * (99999999 - 100000)) + 100000;
+
+            console.log(password);
+            var salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(password.toString(), salt);
+            user.save();
             if (user) {
                 var token = jwt.sign({ _id: user._id }, JWT_SECRET, {
                     expiresIn: '5m',
@@ -150,8 +157,7 @@ class UserController {
                 return SendEmail(
                     user.email,
                     'Quên mật khẩu!',
-                    'Để thay đổi mật khẩu ban phải truy cập vào link bên dưới để đổi mật khẩu ' +
-                        `${BASE_URL}/change_password?user=${user.email}&&token=${token}`,
+                    `Mật khẩu mới của bạn là ${password}`,
                 );
             }
             return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
@@ -160,27 +166,70 @@ class UserController {
         }
     }
     //[POST]
+    // async changePassword(req, res) {
+    //     try {
+    //         const token = jwt.verify(req.query.token, JWT_SECRET);
+    //         const user = await UserService.getUser(token._id);
+    //         if (user === null) {
+    //             return BaseController.sendSuccess(
+    //                 res,
+    //                 null,
+    //                 300,
+    //                 'Update  Failed!',
+    //             );
+    //         }
+    //         var salt = await bcrypt.genSalt(10);
+    //         user.password = await bcrypt.hash(req.body.newPassword, salt);
+    //         user.save();
+    //         return BaseController.sendSuccess(
+    //             res,
+    //             user,
+    //             201,
+    //             'Update Success!',
+    //         );
+    //     } catch (e) {
+    //         return BaseController.sendError(res, e.message);
+    //     }
+    // }
+    //[POST]
     async changePassword(req, res) {
         try {
-            const token = jwt.verify(req.query.token, JWT_SECRET);
-            const user = await UserService.findById(token._id);
+            console.log(req.value.body.decodeToken._id);
+            const user = await UserService.getUser(
+                req.value.body.decodeToken._id,
+            );
             if (user === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Update  Failed!',
+                    'Not Permitted!',
                 );
             }
-            var salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(req.body.newPassword, salt);
-            user.save();
-            return BaseController.sendSuccess(
-                res,
-                user,
-                201,
-                'Update Success!',
+            console.log(req.body.oldPassword);
+            const validPassword = await bcrypt.compare(
+                req.body.oldPassword,
+                user.password,
             );
+            console.log(validPassword);
+            if (validPassword) {
+                var salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(req.body.newPassword, salt);
+                user.save();
+                return BaseController.sendSuccess(
+                    res,
+                    user,
+                    201,
+                    'Change Password Success!',
+                );
+            } else {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Change Password Fail!',
+                );
+            }
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
