@@ -7,8 +7,13 @@ class CarController {
     //[POST] /api/createCar/create
     async createCar(req, res) {
         try {
-            console.log(req.value.body.decodeToken);
+            // console.log(req.value.body.decodeToken);
+            // var image = await BaseController.UploadImage(req.files["Image"][0].filename, "CarImages/");
+            // console.log(image);
             const result = await CarService.create(req.body);
+            // result.Image = image;
+            // result.save();
+            // console.log(result);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
@@ -153,11 +158,26 @@ class CarController {
     //[POST] /api/car/
     async updateCar(req, res) {
         try {
-            const car = await CarService.updateCar(
+            // const car = await CarService.findById(req.query.updateId);
+            // if (car === null) {
+            //     return BaseController.sendSuccess(
+            //         res,
+            //         null,
+            //         300,
+            //         'Update  Failed!',
+            //     );
+            // }
+            // console.log(car);
+            // if (car.Image !== req.body.Image) {
+            //     var image = await BaseController.UploadImage(req.files["Image"][0].filename, "CarImages/");
+            //     req.body.Image = image;
+            // }
+            const update = await CarService.updateCar(
                 req.query.updateId,
                 req.body,
             );
-            if (car === null) {
+            console.log(update);
+            if (update === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
@@ -165,7 +185,12 @@ class CarController {
                     'Update  Failed!',
                 );
             }
-            return BaseController.sendSuccess(res, car, 201, 'Update Success!');
+            return BaseController.sendSuccess(
+                res,
+                update,
+                201,
+                'Update Success!',
+            );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

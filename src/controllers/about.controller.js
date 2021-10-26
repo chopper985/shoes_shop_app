@@ -1,5 +1,6 @@
 const AboutService = require('../services/about.service');
 const BaseController = require('./baseController');
+const SendEmail = require('../validators/sendEmail');
 
 class AboutController {
     constructor() {}
@@ -41,6 +42,7 @@ class AboutController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[POST] Update About
     async updateAbout(req, res) {
         try {
             const about = await AboutService.updateAbout(
@@ -56,6 +58,19 @@ class AboutController {
                 );
             }
             return BaseController.sendSuccess(res, about, 201, 'Get Success!');
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[POST] Contact
+    async contact(req, res) {
+        try {
+            SendEmail(
+                req.body.email,
+                'Phản hồi của khách hàng!',
+                `Tên khách hàng: ${req.body.name}./nMật khẩu mới của bạn là ${req.body.body}`,
+                res,
+            );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

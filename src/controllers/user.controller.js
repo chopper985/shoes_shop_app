@@ -145,8 +145,6 @@ class UserController {
             });
             const password =
                 Math.floor(Math.random() * (99999999 - 100000)) + 100000;
-
-            console.log(password);
             var salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(password.toString(), salt);
             user.save();
@@ -166,32 +164,6 @@ class UserController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[POST]
-    // async changePassword(req, res) {
-    //     try {
-    //         const token = jwt.verify(req.query.token, JWT_SECRET);
-    //         const user = await UserService.getUser(token._id);
-    //         if (user === null) {
-    //             return BaseController.sendSuccess(
-    //                 res,
-    //                 null,
-    //                 300,
-    //                 'Update  Failed!',
-    //             );
-    //         }
-    //         var salt = await bcrypt.genSalt(10);
-    //         user.password = await bcrypt.hash(req.body.newPassword, salt);
-    //         user.save();
-    //         return BaseController.sendSuccess(
-    //             res,
-    //             user,
-    //             201,
-    //             'Update Success!',
-    //         );
-    //     } catch (e) {
-    //         return BaseController.sendError(res, e.message);
-    //     }
-    // }
     //[POST]
     async changePassword(req, res) {
         try {

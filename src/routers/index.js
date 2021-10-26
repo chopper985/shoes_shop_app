@@ -8,6 +8,7 @@ const ScheDuleRouter = require('./schedule.route');
 const router = express.Router();
 
 router.use('/schedule', ScheDuleRouter);
+router.use('/schedule', ScheDuleRouter);
 router.use('/about', AboutRouter);
 router.use('/company', CarCompanyRouter);
 router.use('/car', CarRouter);
