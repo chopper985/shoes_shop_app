@@ -5,8 +5,8 @@ const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
 router.post('/contact', Controller.contact);
-router.post('/update', Controller.updateAbout);
-router.post('/create', Controller.createAbout);
+router.post('/update', verifyToken, admin, Controller.updateAbout);
+router.post('/create', verifyToken, admin, Controller.createAbout);
 router.get('/', Controller.getAbout);
 
 module.exports = router;
