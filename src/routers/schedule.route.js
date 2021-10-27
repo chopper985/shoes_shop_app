@@ -4,6 +4,7 @@ const router = express.Router();
 const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
+router.get('/user', verifyToken, Controller.getUserSchedule);
 router.get('/', verifyToken, Controller.getSchedule);
 router.delete('/', verifyToken, admin, Controller.deleteSchedule);
 router.get('/all', verifyToken, admin, Controller.getAllSchedule);
