@@ -6,7 +6,6 @@ class ScheduleController {
     //[POST] /api/createschedule/create
     async createSchedule(req, res) {
         try {
-            console.log(req.value.body.decodeToken._id);
             const result = await ScheduleService.create(req.body);
             result._idUser = req.value.body.decodeToken._id;
             result.save();
@@ -101,7 +100,6 @@ class ScheduleController {
     //[GET] /api/schedule/user
     async getUserSchedule(req, res) {
         try {
-            console.log(req.value.body.decodeToken._id);
             ScheduleService.getUserSchedule({
                 _idUser: req.value.body.decodeToken._id,
             }).then((schedule) => {
@@ -117,6 +115,52 @@ class ScheduleController {
                     res,
                     schedule,
                     201,
+                    'Get Schedule Success!',
+                );
+            });
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[GET] /api/schedule/count
+    async CountUserSchedule(req, res) {
+        try {
+            ScheduleService.CountSchedule().then((result) => {
+                if (result === null) {
+                    return BaseController.sendSuccess(
+                        res,
+                        null,
+                        300,
+                        'Get Schedule Failed!',
+                    );
+                }
+                return BaseController.sendSuccess(
+                    res,
+                    result,
+                    200,
+                    'Get Schedule Success!',
+                );
+            });
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[GET] /api/schedule/countMount
+    async CountMountSchedule(req, res) {
+        try {
+            ScheduleService.CountMonth({ month: '' }).then((result) => {
+                if (result === null) {
+                    return BaseController.sendSuccess(
+                        res,
+                        null,
+                        300,
+                        'Get Schedule Failed!',
+                    );
+                }
+                return BaseController.sendSuccess(
+                    res,
+                    result,
+                    200,
                     'Get Schedule Success!',
                 );
             });

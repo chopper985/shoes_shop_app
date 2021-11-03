@@ -23,5 +23,11 @@ class BaseService {
     async findByIdAndRemove(id) {
         return this._model.findByIdAndRemove(id);
     }
+    async count() {
+        return this._model.find().countDocuments();
+    }
+    async countFilter(filter = {}) {
+        return this._model.find().countDocuments((filter = {}));
+    }
 }
 module.exports = BaseService;

@@ -45,22 +45,18 @@ class UserController {
                     'Login Failed!',
                 );
             }
-            var token = jwt.sign(
-                { _id: result._id, role: result.role },
-                JWT_SECRET,
-            );
-            // var data = {
-            //     token : jwt.sign(
+            // var token = jwt.sign(
             //     { _id: result._id, role: result.role },
-            //     JWT_SECRET,),
-            //     role: result.role
-            // };
-            return BaseController.sendSuccess(
-                res,
-                token,
-                201,
-                'Login Success!',
-            );
+            //     JWT_SECRET,
+            // );
+            var data = {
+                token: jwt.sign(
+                    { _id: result._id, role: result.role },
+                    JWT_SECRET,
+                ),
+                role: result.role,
+            };
+            return BaseController.sendSuccess(res, data, 201, 'Login Success!');
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

@@ -68,7 +68,7 @@ class AboutController {
             SendEmail(
                 req.body.email,
                 'Phản hồi của khách hàng!',
-                `Tên khách hàng: ${req.body.name}./nMật khẩu mới của bạn là ${req.body.body}`,
+                `Tên khách hàng: ${req.body.name}./nPhản hồi của khách hàng: ${req.body.body}`,
                 res,
             );
         } catch (e) {

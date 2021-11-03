@@ -46,5 +46,21 @@ class ScheduleService extends BaseService {
             return null;
         }
     }
+    async CountSchedule() {
+        try {
+            const result = await this.count();
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async CountMonth(filter = {}) {
+        try {
+            const result = await this.countFilter((filter = {}));
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 module.exports = new ScheduleService();
