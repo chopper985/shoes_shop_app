@@ -66,9 +66,9 @@ class AboutController {
     async contact(req, res) {
         try {
             SendEmail(
-                req.body.email,
+                '18110140@student.hcmute.edu.vn',
                 'Phản hồi của khách hàng!',
-                `Tên khách hàng: ${req.body.name}./nPhản hồi của khách hàng: ${req.body.body}`,
+                `Email khách hàng: ${req.body.email}.\nTên khách hàng: ${req.body.name}.\nPhản hồi của khách hàng: ${req.body.body}`,
                 res,
             );
         } catch (e) {
