@@ -46,6 +46,14 @@ class ScheduleService extends BaseService {
             return null;
         }
     }
+    async changeStatus(id, item) {
+        try {
+            const result = await this.findByIdAndUpdate(id, item);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async CountSchedule() {
         try {
             const result = await this.count();

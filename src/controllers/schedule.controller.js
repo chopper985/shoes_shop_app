@@ -8,6 +8,7 @@ class ScheduleController {
         try {
             const result = await ScheduleService.create(req.body);
             result._idUser = req.value.body.decodeToken._id;
+            result.status = 'Chưa xác nhận';
             result.save();
             if (result === null) {
                 return BaseController.sendSuccess(
@@ -22,6 +23,30 @@ class ScheduleController {
                 result,
                 201,
                 'Create Schedule Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //POST /api/schedule/changeStatus/
+    async changeStatus(req, res) {
+        try {
+            const result = await ScheduleService.getSchedule(req.query.id);
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Change Status Schedule Failed!',
+                );
+            }
+            result.status = 'Xác nhận';
+            result.save();
+            return BaseController.sendSuccess(
+                res,
+                result,
+                201,
+                'Change Status Schedule Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);

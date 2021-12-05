@@ -4,6 +4,7 @@ const router = express.Router();
 const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
+router.post('/change-status', verifyToken, admin, Controller.changeStatus);
 router.get('/countMonth', verifyToken, Controller.CountUserSchedule);
 router.get('/count', verifyToken, Controller.CountUserSchedule);
 router.get('/user', verifyToken, Controller.getUserSchedule);
