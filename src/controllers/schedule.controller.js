@@ -128,6 +128,7 @@ class ScheduleController {
             ScheduleService.getUserSchedule({
                 _idUser: req.value.body.decodeToken._id,
             }).then((schedule) => {
+                console.log(schedule);
                 if (schedule === null) {
                     return BaseController.sendSuccess(
                         res,

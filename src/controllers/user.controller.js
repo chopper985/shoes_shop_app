@@ -45,10 +45,6 @@ class UserController {
                     'Login Failed!',
                 );
             }
-            // var token = jwt.sign(
-            //     { _id: result._id, role: result.role },
-            //     JWT_SECRET,
-            // );
             var data = {
                 token: jwt.sign(
                     { _id: result._id, role: result.role },

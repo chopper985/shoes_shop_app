@@ -40,7 +40,7 @@ class ScheduleService extends BaseService {
     }
     async getUserSchedule(filter = {}) {
         try {
-            const result = await this.search((filter = {}));
+            const result = await this.search(filter);
             return result;
         } catch (e) {
             return null;
