@@ -1,12 +1,12 @@
-const userModel = require('../models/user.model');
-const BaseService = require('../services/baseService');
+const accountModel = require('../models/account.model');
+const BaseService = require('./baseService');
 const bcrypt = require('bcrypt');
 
-class UserService extends BaseService {
+class AccountService extends BaseService {
     constructor() {
-        super(userModel);
+        super(accountModel);
     }
-    async createUser(payload) {
+    async createAccount(payload) {
         try {
             const result = await this.create(payload);
             return result;
@@ -14,7 +14,7 @@ class UserService extends BaseService {
             return null;
         }
     }
-    async getAllUser() {
+    async getAllAccount() {
         try {
             const result = await this.findAll();
             console.log(result);
@@ -23,7 +23,7 @@ class UserService extends BaseService {
             return null;
         }
     }
-    async getUser(id) {
+    async getAccount(id) {
         try {
             const result = await this.findById(id);
             return result;
@@ -34,8 +34,9 @@ class UserService extends BaseService {
     async login(payload) {
         try {
             const result = await this.findOne({
-                userName: payload.userName,
+                phoneNumber: payload.phoneNumber,
             });
+            console.log(result);
             if (result) {
                 const validPassword = await bcrypt.compare(
                     payload.password,
@@ -52,7 +53,7 @@ class UserService extends BaseService {
             return null;
         }
     }
-    async updateUser(id, item) {
+    async updateAccount(id, item) {
         try {
             const result = await this.findByIdAndUpdate(id, item);
             return result;
@@ -69,4 +70,4 @@ class UserService extends BaseService {
         }
     }
 }
-module.exports = new UserService();
+module.exports = new AccountService();

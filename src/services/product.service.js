@@ -1,11 +1,11 @@
-const carModel = require('../models/car.model');
+const productModel = require('../models/product.model');
 const BaseService = require('../services/baseService');
 
-class CarService extends BaseService {
+class ProductService extends BaseService {
     constructor() {
-        super(carModel);
+        super(productModel);
     }
-    async createCar(payload) {
+    async createProduct(payload) {
         try {
             const result = await this.create(payload);
             return result;
@@ -13,7 +13,7 @@ class CarService extends BaseService {
             return null;
         }
     }
-    async getAllCar() {
+    async getAllProduct() {
         try {
             const result = await this.findAll();
             console.log(result);
@@ -22,7 +22,7 @@ class CarService extends BaseService {
             return null;
         }
     }
-    async getCar(id) {
+    async getProduct(id) {
         try {
             const result = await this.findById(id);
             return result;
@@ -30,31 +30,7 @@ class CarService extends BaseService {
             return null;
         }
     }
-    async deleteCar(id) {
-        try {
-            const result = await this.findByIdAndRemove(id);
-            return result;
-        } catch (e) {
-            return null;
-        }
-    }
-    async searchCompanyCar(filter = {}) {
-        try {
-            const result = await this.search(filter);
-            return result;
-        } catch (e) {
-            return null;
-        }
-    }
-    async searchCarName(filter = {}) {
-        try {
-            const result = await this.search(filter);
-            return result;
-        } catch (e) {
-            return null;
-        }
-    }
-    async updateCar(id, item) {
+    async updateProduct(id, item) {
         try {
             const result = await this.findByIdAndUpdate(id, item);
             return result;
@@ -62,5 +38,29 @@ class CarService extends BaseService {
             return null;
         }
     }
+    async deleteProduct(id) {
+        try {
+            const result = await this.findByIdAndRemove(id);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async getUserProduct(filter = {}) {
+        try {
+            const result = await this.search(filter);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async CountProduct() {
+        try {
+            const result = await this.count();
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
 }
-module.exports = new CarService();
+module.exports = new ProductService();

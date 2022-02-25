@@ -1,16 +1,16 @@
-const UserService = require('../services/user.service');
+const AccountService = require('../services/account.service');
 const BaseController = require('./baseController');
 var jwt = require('jsonwebtoken');
 var { JWT_SECRET, BASE_URL } = require('../commons/configs/env');
 const bcrypt = require('bcrypt');
 const SendEmail = require('../validators/sendEmail');
 
-class UserController {
+class AccountController {
     constructor() {}
     //[POST] /api/user/register
     async createUser(req, res) {
         try {
-            const result = await UserService.create(req.body);
+            const result = await AccountService.create(req.body);
 
             if (result === null) {
                 return BaseController.sendSuccess(
@@ -36,7 +36,7 @@ class UserController {
     //[POST] /api/user/login
     async login(req, res) {
         try {
-            const result = await UserService.login(req.body);
+            const result = await AccountService.login(req.body);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
@@ -57,10 +57,10 @@ class UserController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/user/all
-    async getAllUser(req, res) {
+    //[GET] /api/account/all
+    async getAllAccount(req, res) {
         try {
-            UserService.getAllUser().then((user) => {
+            AccountService.getAllAccount().then((user) => {
                 if (user === null) {
                     return BaseController.sendSuccess(
                         res,
@@ -80,10 +80,10 @@ class UserController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/user/:id
-    async getUser(req, res) {
+    //[GET] /api/account/:id
+    async getAccount(req, res) {
         try {
-            const user = await UserService.getUser(
+            const user = await AccountService.getAccount(
                 req.value.body.decodeToken._id,
             );
             if (user === null) {
@@ -104,10 +104,10 @@ class UserController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[POST] /api/user/
-    async updateUser(req, res) {
+    //[POST] /api/account/
+    async updateAccount(req, res) {
         try {
-            const user = await UserService.updateUser(
+            const user = await AccountService.updateAccount(
                 req.value.body.decodeToken._id,
                 req.body,
             );
@@ -129,10 +129,10 @@ class UserController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[POST] /api/user/forgotPassword
+    //[POST] /api/account/forgotPassword
     async resetPassword(req, res) {
         try {
-            const user = await UserService.reserPassword({
+            const user = await AccountService.reserPassword({
                 email: req.body.email,
             });
             const password =
@@ -160,7 +160,7 @@ class UserController {
     async changePassword(req, res) {
         try {
             console.log(req.value.body.decodeToken._id);
-            const user = await UserService.getUser(
+            const user = await AccountService.getAccount(
                 req.value.body.decodeToken._id,
             );
             if (user === null) {
@@ -201,4 +201,4 @@ class UserController {
     }
 }
 
-module.exports = new UserController();
+module.exports = new AccountController();

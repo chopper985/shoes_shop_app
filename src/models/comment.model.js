@@ -1,34 +1,30 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const About = new Schema(
+const Comment = new Schema(
     {
-        email: {
+        idAccount: {
             type: String,
             required: true,
         },
-        description: {
+        idProduct: {
             type: String,
             required: true,
         },
-        branch: {
+        content: {
             type: String,
             required: true,
         },
-        facebook: {
-            type: String,
-            required: true,
-        },
-        insta: {
-            type: String,
-            required: true,
-        },
-        zalo: {
+        level: {
             type: Int16Array,
-            required: true,
+            require: true,
+        },
+        idParent: {
+            type: String,
+            default: '',
         },
     },
     { timestamps: true },
 );
 
-module.exports = mongoose.model('About', About);
+module.exports = mongoose.model('Comment', Comment);
