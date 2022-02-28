@@ -8,6 +8,6 @@ router.post('/update', verifyToken, admin, Controller.updateProduct);
 router.get('/', Controller.getProduct);
 router.post('/delete', verifyToken, admin, Controller.deleteProduct);
 router.get('/all', Controller.getAllProduct);
-router.post('/create', verifyToken, admin, Controller.createProdcut);
+router.post('/create', verifyToken, admin, Controller.createProduct);
 
 module.exports = router;

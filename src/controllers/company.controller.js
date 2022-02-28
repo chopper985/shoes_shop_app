@@ -1,34 +1,34 @@
-const ProductService = require('../services/product.service');
+const CompanyService = require('../services/company.service');
 const BaseController = require('./baseController');
 
-class ProductController {
+class CompanyController {
     constructor() {}
-    //[POST] /api/product/create
-    async createProduct(req, res) {
+    //[POST] /api/company/create
+    async createCompany(req, res) {
         try {
-            const result = await ProductService.create(req.body);
+            const result = await CompanyService.create(req.body);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Create Product Failed!',
+                    'Create Company Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 201,
-                'Create Product Success!',
+                'Create Company Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/product/getAllProduct
-    async getAllProduct(req, res) {
+    //[GET] /api/company/getAllCompany
+    async getAllCompany(req, res) {
         try {
-            ProductService.getAllProduct().then((product) => {
+            CompanyService.getAllCompany().then((product) => {
                 if (product === null) {
                     return BaseController.sendSuccess(
                         res,
@@ -48,36 +48,36 @@ class ProductController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/product/getProduct/{getId}
-    async getProduct(req, res) {
+    //[GET] /api/company/getCompany/{getId}
+    async getCompany(req, res) {
         try {
-            const result = await ProductService.getProduct(req.query.getId);
+            const result = await CompanyService.getCompany(req.query.getId);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Get Product Failed!',
+                    'Get Company Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 201,
-                'Get Product Success!',
+                'Get Company Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[POST] /api/product/update
-    async updateProduct(req, res) {
+    //[POST] /api/company/update
+    async updateCompany(req, res) {
         try {
-            const product = await ProductService.updateProduct(
+            const company = await CompanyService.updateCompany(
                 req.body._id,
                 req.body,
             );
-            if (product === null) {
+            if (company === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
@@ -87,7 +87,7 @@ class ProductController {
             }
             return BaseController.sendSuccess(
                 res,
-                product,
+                company,
                 201,
                 'Update Success!',
             );
@@ -95,16 +95,16 @@ class ProductController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[DELETE] /api/product/delete/:id
-    async deleteProduct(req, res) {
+    //[DELETE] /api/company/delete/:id
+    async deleteCompany(req, res) {
         try {
-            const result = await ProductService.getProduct(req.query.getId);
+            const result = await CompanyService.getCompany(req.query.getId);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Get Product Failed!',
+                    'Get Company Failed!',
                 );
             }
             result.isDelete = true;
@@ -113,7 +113,7 @@ class ProductController {
                 res,
                 result,
                 201,
-                'Get Product Success!',
+                'Get Company Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
@@ -121,4 +121,4 @@ class ProductController {
     }
 }
 
-module.exports = new ProductController();
+module.exports = new CompanyController();

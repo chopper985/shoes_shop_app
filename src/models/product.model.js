@@ -36,6 +36,10 @@ const Product = new Schema(
             type: Number,
             required: true,
         },
+        productCode: {
+            type: String,
+            required: true,
+        },
         quanlity: {
             type: Number,
             required: true,
