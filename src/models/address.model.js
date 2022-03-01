@@ -19,10 +19,14 @@ const Address = new Schema(
             type: String,
         },
         phoneReciever: {
-            type: Int16Array,
+            type: Number,
         },
         idAccount: {
             type: String,
+        },
+        isDeleted: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true },

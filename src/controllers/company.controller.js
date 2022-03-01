@@ -28,22 +28,24 @@ class CompanyController {
     //[GET] /api/company/getAllCompany
     async getAllCompany(req, res) {
         try {
-            CompanyService.getAllCompany().then((product) => {
-                if (product === null) {
+            CompanyService.getAllCompany({ isDeleted: false }).then(
+                (product) => {
+                    if (product === null) {
+                        return BaseController.sendSuccess(
+                            res,
+                            null,
+                            300,
+                            'Get All Failed!',
+                        );
+                    }
                     return BaseController.sendSuccess(
                         res,
-                        null,
-                        300,
-                        'Get All Failed!',
+                        product,
+                        201,
+                        'Get All Success!',
                     );
-                }
-                return BaseController.sendSuccess(
-                    res,
-                    product,
-                    201,
-                    'Get All Success!',
-                );
-            });
+                },
+            );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
@@ -51,7 +53,10 @@ class CompanyController {
     //[GET] /api/company/getCompany/{getId}
     async getCompany(req, res) {
         try {
-            const result = await CompanyService.getCompany(req.query.getId);
+            const result = await CompanyService.getCompany({
+                _id: req.query.getId,
+                isDeleted: false,
+            });
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,

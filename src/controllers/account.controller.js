@@ -60,7 +60,7 @@ class AccountController {
     //[GET] /api/account/all
     async getAllAccount(req, res) {
         try {
-            AccountService.getAllAccount().then((user) => {
+            AccountService.getAllAccount({ isDeleted: false }).then((user) => {
                 if (user === null) {
                     return BaseController.sendSuccess(
                         res,
@@ -83,9 +83,10 @@ class AccountController {
     //[GET] /api/account/:id
     async getAccount(req, res) {
         try {
-            const user = await AccountService.getAccount(
-                req.value.body.decodeToken._id,
-            );
+            const user = await AccountService.getAccount({
+                _id: req.value.body.decodeToken._id,
+                isDeleted: false,
+            });
             if (user === null) {
                 return BaseController.sendSuccess(
                     res,

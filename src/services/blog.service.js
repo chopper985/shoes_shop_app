@@ -1,11 +1,11 @@
-const companyModel = require('../models/company.model');
+const blogModel = require('../models/blog.model');
 const BaseService = require('../services/baseService');
 
-class CompanyService extends BaseService {
+class BlogService extends BaseService {
     constructor() {
-        super(companyModel);
+        super(blogModel);
     }
-    async createCompany(payload) {
+    async createBlog(payload) {
         try {
             const result = await this.create(payload);
             return result;
@@ -13,7 +13,7 @@ class CompanyService extends BaseService {
             return null;
         }
     }
-    async getAllCompany(filter = {}) {
+    async getAllBlog(filter = {}) {
         try {
             const result = await this.search(filter);
             console.log(result);
@@ -22,7 +22,7 @@ class CompanyService extends BaseService {
             return null;
         }
     }
-    async getCompany(filter = {}) {
+    async getBlog(filter = {}) {
         try {
             const result = await this.search(filter);
             return result;
@@ -30,7 +30,7 @@ class CompanyService extends BaseService {
             return null;
         }
     }
-    async updateCompany(id, item) {
+    async updateBlog(id, item) {
         try {
             const result = await this.findByIdAndUpdate(id, item);
             return result;
@@ -38,7 +38,7 @@ class CompanyService extends BaseService {
             return null;
         }
     }
-    async deleteCompany(id) {
+    async deleteBlog(id) {
         try {
             const result = await this.findByIdAndRemove(id);
             return result;
@@ -47,4 +47,4 @@ class CompanyService extends BaseService {
         }
     }
 }
-module.exports = new CompanyService();
+module.exports = new BlogService();

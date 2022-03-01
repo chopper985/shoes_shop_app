@@ -13,18 +13,18 @@ class ProductService extends BaseService {
             return null;
         }
     }
-    async getAllProduct() {
+    async getAllProduct(filter = {}) {
         try {
-            const result = await this.findAll();
+            const result = await this.search(filter);
             console.log(result);
             return result;
         } catch (e) {
             return null;
         }
     }
-    async getProduct(id) {
+    async getProduct(filter = {}) {
         try {
-            const result = await this.findById(id);
+            const result = await this.search(filter);
             return result;
         } catch (e) {
             return null;

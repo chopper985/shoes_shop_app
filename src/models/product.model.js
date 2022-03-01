@@ -44,7 +44,7 @@ const Product = new Schema(
             type: Number,
             required: true,
         },
-        isDelete: {
+        isDeleted: {
             type: Boolean,
             default: false,
         },

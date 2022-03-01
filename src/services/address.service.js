@@ -1,11 +1,11 @@
-const companyModel = require('../models/company.model');
+const addressModel = require('../models/address.model');
 const BaseService = require('../services/baseService');
 
-class CompanyService extends BaseService {
+class AddressService extends BaseService {
     constructor() {
-        super(companyModel);
+        super(addressModel);
     }
-    async createCompany(payload) {
+    async createAddress(payload) {
         try {
             const result = await this.create(payload);
             return result;
@@ -13,16 +13,7 @@ class CompanyService extends BaseService {
             return null;
         }
     }
-    async getAllCompany(filter = {}) {
-        try {
-            const result = await this.search(filter);
-            console.log(result);
-            return result;
-        } catch (e) {
-            return null;
-        }
-    }
-    async getCompany(filter = {}) {
+    async getAllAddress(filter = {}) {
         try {
             const result = await this.search(filter);
             return result;
@@ -30,7 +21,15 @@ class CompanyService extends BaseService {
             return null;
         }
     }
-    async updateCompany(id, item) {
+    async getAddress(id) {
+        try {
+            const result = await this.findById(id);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async updateAddress(id, item) {
         try {
             const result = await this.findByIdAndUpdate(id, item);
             return result;
@@ -38,7 +37,7 @@ class CompanyService extends BaseService {
             return null;
         }
     }
-    async deleteCompany(id) {
+    async deleteAddress(id) {
         try {
             const result = await this.findByIdAndRemove(id);
             return result;
@@ -47,4 +46,4 @@ class CompanyService extends BaseService {
         }
     }
 }
-module.exports = new CompanyService();
+module.exports = new AddressService();

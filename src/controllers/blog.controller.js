@@ -1,34 +1,34 @@
-const ProductService = require('../services/product.service');
+const BlogService = require('../services/blog.service');
 const BaseController = require('./baseController');
 
-class ProductController {
+class BlogController {
     constructor() {}
-    //[POST] /api/product/create
-    async createProduct(req, res) {
+    //[POST] /api/blog/create
+    async createBlog(req, res) {
         try {
-            const result = await ProductService.create(req.body);
+            const result = await BlogService.create(req.body);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Create Product Failed!',
+                    'Create Blog Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 201,
-                'Create Product Success!',
+                'Create Blog Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/product/getAllProduct
-    async getAllProduct(req, res) {
+    //[GET] /api/blog/getAllBlog
+    async getAllBlog(req, res) {
         try {
-            ProductService.getAllProduct({ color: 'red' }).then((product) => {
+            BlogService.getAllBlog({ isDeleted: false }).then((product) => {
                 if (product === null) {
                     return BaseController.sendSuccess(
                         res,
@@ -48,10 +48,10 @@ class ProductController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/product/getProduct/{getId}
-    async getProduct(req, res) {
+    //[GET] /api/blog/getBlog/{getId}
+    async getBlog(req, res) {
         try {
-            const result = await ProductService.getProduct({
+            const result = await BlogService.getBlog({
                 _id: req.query.getId,
                 isDeleted: false,
             });
@@ -60,27 +60,24 @@ class ProductController {
                     res,
                     null,
                     300,
-                    'Get Product Failed!',
+                    'Get Blog Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 201,
-                'Get Product Success!',
+                'Get Blog Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[POST] /api/product/update
-    async updateProduct(req, res) {
+    //[POST] /api/blog/update
+    async updateBlog(req, res) {
         try {
-            const product = await ProductService.updateProduct(
-                req.body._id,
-                req.body,
-            );
-            if (product === null) {
+            const blog = await BlogService.updateBlog(req.body._id, req.body);
+            if (blog === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
@@ -90,7 +87,7 @@ class ProductController {
             }
             return BaseController.sendSuccess(
                 res,
-                product,
+                blog,
                 201,
                 'Update Success!',
             );
@@ -98,16 +95,16 @@ class ProductController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[DELETE] /api/product/delete/:id
-    async deleteProduct(req, res) {
+    //[DELETE] /api/blog/delete/:id
+    async deleteBlog(req, res) {
         try {
-            const result = await ProductService.getProduct(req.query.getId);
+            const result = await BlogService.getBlog(req.query.getId);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Get Product Failed!',
+                    'Get Blog Failed!',
                 );
             }
             result.isDelete = true;
@@ -116,7 +113,7 @@ class ProductController {
                 res,
                 result,
                 201,
-                'Get Product Success!',
+                'Get Blog Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
@@ -124,4 +121,4 @@ class ProductController {
     }
 }
 
-module.exports = new ProductController();
+module.exports = new BlogController();

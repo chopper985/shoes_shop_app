@@ -29,6 +29,10 @@ const Account = new Schema(
             type: String,
             default: 'USER',
         },
+        isDeleted: {
+            type: Boolean,
+            default: false,
+        },
     },
     { timestamps: true },
 );

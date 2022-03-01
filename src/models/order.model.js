@@ -29,7 +29,7 @@ const Order = new Schema(
             type: addressModel,
             required: true,
         },
-        isDelete: {
+        isDeleted: {
             type: Boolean,
             required: true,
         },
