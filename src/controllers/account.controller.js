@@ -4,6 +4,7 @@ var jwt = require('jsonwebtoken');
 var { JWT_SECRET, BASE_URL } = require('../commons/configs/env');
 const bcrypt = require('bcrypt');
 const SendEmail = require('../validators/sendEmail');
+const SendOTP = require('../validators/otp');
 
 class AccountController {
     constructor() {}
@@ -134,25 +135,36 @@ class AccountController {
     async resetPassword(req, res) {
         try {
             const user = await AccountService.reserPassword({
-                email: req.body.email,
+                phoneNumber: req.body.phoneNumber,
             });
-            const password =
-                Math.floor(Math.random() * (99999999 - 100000)) + 100000;
-            var salt = await bcrypt.genSalt(10);
-            user.password = await bcrypt.hash(password.toString(), salt);
-            user.save();
+            console.log(user);
             if (user) {
-                var token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-                    expiresIn: '5m',
-                });
-                return SendEmail(
-                    user.email,
-                    'Quên mật khẩu!',
-                    `Mật khẩu mới của bạn là ${password}`,
+                var verify =
+                    Math.floor(Math.random() * (999999 - 100000)) + 100000;
+                return SendOTP(
                     res,
+                    user.phoneNumber,
+                    `Mã xác thực tài khoản của bạn là: ${verify}`,
                 );
             }
             return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
+            //     const password =
+            //         Math.floor(Math.random() * (99999999 - 100000)) + 100000;
+            //     var salt = await bcrypt.genSalt(10);
+            //     user.password = await bcrypt.hash(password.toString(), salt);
+            //     user.save();
+            //     if (user) {
+            //         var token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+            //             expiresIn: '5m',
+            //         });
+            //         return SendEmail(
+            //             user.email,
+            //             'Quên mật khẩu!',
+            //             `Mật khẩu mới của bạn là ${password}`,
+            //             res,
+            //         );
+            //     }
+            //     return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
