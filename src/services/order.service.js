@@ -1,11 +1,11 @@
-const addressModel = require('../models/address.model');
+const orderModel = require('../models/order.model');
 const BaseService = require('../services/baseService');
 
-class AddressService extends BaseService {
+class OrderService extends BaseService {
     constructor() {
-        super(addressModel);
+        super(orderModel);
     }
-    async createAddress(payload) {
+    async createOrder(payload) {
         try {
             const result = await this.create(payload);
             return result;
@@ -13,7 +13,7 @@ class AddressService extends BaseService {
             return null;
         }
     }
-    async getAllAddress(filter = {}) {
+    async getAllOrder(filter = {}) {
         try {
             const result = await this.search(filter);
             return result;
@@ -21,7 +21,7 @@ class AddressService extends BaseService {
             return null;
         }
     }
-    async getAddress(filter = {}) {
+    async getOrder(filter = {}) {
         try {
             const result = await this.search(filter);
             return result;
@@ -29,7 +29,7 @@ class AddressService extends BaseService {
             return null;
         }
     }
-    async updateAddress(id, item) {
+    async updateOrder(id, item) {
         try {
             const result = await this.findByIdAndUpdate(id, item);
             return result;
@@ -37,7 +37,7 @@ class AddressService extends BaseService {
             return null;
         }
     }
-    async deleteAddress(id) {
+    async deleteOrder(id) {
         try {
             const result = await this.findByIdAndRemove(id);
             return result;
@@ -46,4 +46,4 @@ class AddressService extends BaseService {
         }
     }
 }
-module.exports = new AddressService();
+module.exports = new OrderService();

@@ -24,7 +24,7 @@ class BlogService extends BaseService {
     }
     async getBlog(filter = {}) {
         try {
-            const result = await this.search(filter);
+            const result = await this.findById((filter = {}));
             return result;
         } catch (e) {
             return null;

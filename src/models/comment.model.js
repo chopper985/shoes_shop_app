@@ -16,7 +16,7 @@ const Comment = new Schema(
             required: true,
         },
         level: {
-            type: Int16Array,
+            type: Number,
             require: true,
         },
         idParent: {

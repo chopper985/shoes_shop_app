@@ -17,7 +17,6 @@ class AccountService extends BaseService {
     async getAllAccount(filter = {}) {
         try {
             const result = await this.search(filter);
-            console.log(result);
             return result;
         } catch (e) {
             return null;

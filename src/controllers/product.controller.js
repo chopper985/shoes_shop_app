@@ -101,7 +101,7 @@ class ProductController {
     //[DELETE] /api/product/delete/:id
     async deleteProduct(req, res) {
         try {
-            const result = await ProductService.getProduct(req.query.getId);
+            const result = await ProductService.findById(req.query.getId);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
@@ -110,7 +110,7 @@ class ProductController {
                     'Get Product Failed!',
                 );
             }
-            result.isDelete = true;
+            result.isDeleted = true;
             result.save();
             return BaseController.sendSuccess(
                 res,

@@ -132,7 +132,7 @@ class AccountController {
         }
     }
     //[POST] /api/account/forgotPassword
-    async resetPassword(req, res) {
+    async sendOTP(req, res) {
         try {
             const user = await AccountService.reserPassword({
                 phoneNumber: req.body.phoneNumber,
@@ -141,6 +141,9 @@ class AccountController {
             if (user) {
                 var verify =
                     Math.floor(Math.random() * (999999 - 100000)) + 100000;
+                user.otp = verify;
+                user.isCreatedOtp = Date.now();
+                user.save();
                 return SendOTP(
                     res,
                     user.phoneNumber,
@@ -148,23 +151,70 @@ class AccountController {
                 );
             }
             return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
-            //     const password =
-            //         Math.floor(Math.random() * (99999999 - 100000)) + 100000;
-            //     var salt = await bcrypt.genSalt(10);
-            //     user.password = await bcrypt.hash(password.toString(), salt);
-            //     user.save();
-            //     if (user) {
-            //         var token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-            //             expiresIn: '5m',
-            //         });
-            //         return SendEmail(
-            //             user.email,
-            //             'Quên mật khẩu!',
-            //             `Mật khẩu mới của bạn là ${password}`,
-            //             res,
-            //         );
-            //     }
-            //     return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[POST]
+    async submitOTP(req, res) {
+        try {
+            const user = await AccountService.reserPassword({
+                phoneNumber: req.body.phoneNumber,
+            });
+            if (user) {
+                const dateSendOTP = new Date(user.isCreatedOtp);
+                const dateSubmitOTP = new Date(req.body.time);
+                const difference = Math.abs(dateSubmitOTP - dateSendOTP);
+                const minute = difference / (1000 * 60);
+                if (minute >= 0 && minute <= 5) {
+                    if (req.body.otp === user.otp) {
+                        return BaseController.sendSuccess(
+                            res,
+                            null,
+                            200,
+                            'Submit Success',
+                        );
+                    }
+                    return BaseController.sendSuccess(
+                        res,
+                        null,
+                        400,
+                        'OTP code is not correct',
+                    );
+                }
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    400,
+                    'OTP has been invalidated',
+                );
+            }
+            return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[PUT]
+    async resetPassword(req, res) {
+        try {
+            const user = await AccountService.reserPassword({
+                phoneNumber: req.body.phoneNumber,
+            });
+            if (user) {
+                var salt = await bcrypt.genSalt(10);
+                user.password = await bcrypt.hash(
+                    req.body.confirmPassword,
+                    salt,
+                );
+                user.save();
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    200,
+                    'Reset Success',
+                );
+            }
+            return BaseController.sendSuccess(res, null, 404, 'NOT FOUND');
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
@@ -172,7 +222,6 @@ class AccountController {
     //[POST]
     async changePassword(req, res) {
         try {
-            console.log(req.value.body.decodeToken._id);
             const user = await AccountService.getAccount(
                 req.value.body.decodeToken._id,
             );
@@ -184,7 +233,6 @@ class AccountController {
                     'Not Permitted!',
                 );
             }
-            console.log(req.body.oldPassword);
             const validPassword = await bcrypt.compare(
                 req.body.oldPassword,
                 user.password,

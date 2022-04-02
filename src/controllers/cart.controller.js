@@ -1,12 +1,13 @@
-const AddressService = require('../services/address.service');
+const CartService = require('../services/cart.service');
 const BaseController = require('./baseController');
 
-class AddressController {
+class CartController {
     constructor() {}
-    //[POST] /api/address/create
-    async createAddress(req, res) {
+    //[POST] /api/cart/create
+    async createCart(req, res) {
         try {
-            const result = await AddressService.create(req.body);
+            console.log(req.body);
+            const result = await CartService.create(req.body);
             result.idAccount = req.value.body.decodeToken._id;
             result.save();
             if (result === null) {
@@ -14,23 +15,23 @@ class AddressController {
                     res,
                     null,
                     300,
-                    'Create Address Failed!',
+                    'Create Cart Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 201,
-                'Create Address Success!',
+                'Create Cart Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/addresses/getAllAddress
-    async getAllAddress(req, res) {
+    //[GET] /api/cart/getAllCart
+    async getAllCart(req, res) {
         try {
-            AddressService.getAllAddress({
+            CartService.getAllCart({
                 idAccount: req.value.body.decodeToken._id,
                 isDeleted: false,
             }).then((product) => {
@@ -53,10 +54,10 @@ class AddressController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/address/getAddress/{getId}
-    async getAddress(req, res) {
+    //[GET] /api/cart/getCart/{getId}
+    async getCart(req, res) {
         try {
-            const result = await AddressService.getAllAddress({
+            const result = await CartService.getAllCart({
                 _id: req.query.getId,
                 isDeleted: false,
             });
@@ -65,54 +66,53 @@ class AddressController {
                     res,
                     null,
                     300,
-                    'Get Address Failed!',
+                    'Get Cart Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 201,
-                'Get Address Success!',
+                'Get Cart Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[POST] /api/address/update
-    async updateAddress(req, res) {
+    //[POST] /api/cart/update
+    async updateAmountCart(req, res) {
         try {
-            const address = await AddressService.updateAddress(
-                req.body._id,
-                req.body,
-            );
-            if (address === null) {
+            const cart = await CartService.getCart(req.body._id);
+            if (cart) {
+                cart.amount = req.body.amount;
+                cart.save();
                 return BaseController.sendSuccess(
                     res,
-                    null,
-                    300,
-                    'Update  Failed!',
+                    cart,
+                    201,
+                    'Update Success!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
-                address,
-                201,
-                'Update Success!',
+                null,
+                300,
+                'Update  Failed!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[DELETE] /api/address/delete/:id
-    async deleteAddress(req, res) {
+    //[DELETE] /api/cart/delete/:id
+    async deleteCart(req, res) {
         try {
-            const result = await AddressService.findById(req.query.getId);
+            const result = await CartService.findById(req.query.getId);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Get Address Failed!',
+                    'Get Cart Failed!',
                 );
             }
             result.isDeleted = true;
@@ -121,7 +121,7 @@ class AddressController {
                 res,
                 result,
                 201,
-                'Get Address Success!',
+                'Get Cart Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
@@ -129,4 +129,4 @@ class AddressController {
     }
 }
 
-module.exports = new AddressController();
+module.exports = new CartController();

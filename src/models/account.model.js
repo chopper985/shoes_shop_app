@@ -33,6 +33,13 @@ const Account = new Schema(
             type: Boolean,
             default: false,
         },
+        otp: {
+            type: Number,
+            default: 0,
+        },
+        isCreatedOtp: {
+            type: Date,
+        },
     },
     { timestamps: true },
 );

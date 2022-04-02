@@ -103,7 +103,7 @@ class CompanyController {
     //[DELETE] /api/company/delete/:id
     async deleteCompany(req, res) {
         try {
-            const result = await CompanyService.getCompany(req.query.getId);
+            const result = await CompanyService.findById(req.query.getId);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
@@ -112,7 +112,7 @@ class CompanyController {
                     'Get Company Failed!',
                 );
             }
-            result.isDelete = true;
+            result.isDeleted = true;
             result.save();
             return BaseController.sendSuccess(
                 res,

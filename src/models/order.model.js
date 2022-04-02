@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const Order = new Schema(
     {
         lstCart: {
-            type: [cartModel],
+            type: Array,
             required: true,
         },
         idAccount: {
@@ -14,11 +14,12 @@ const Order = new Schema(
             required: true,
         },
         status: {
-            type: Int16Array,
+            type: Number,
             required: true,
+            default: 1,
         },
         totalPrice: {
-            type: Float64Array,
+            type: Number,
             required: true,
         },
         statusPayment: {
@@ -26,15 +27,16 @@ const Order = new Schema(
             required: true,
         },
         address: {
-            type: addressModel,
+            type: Array,
             required: true,
         },
         isDeleted: {
             type: Boolean,
-            required: true,
+            default: false,
         },
     },
     { timestamps: true },
 );
 
 module.exports = mongoose.model('Order', Order);
+//Status 1- Order, 2 - Package, 3 - In transit, 4- Delivery, 5 - Cancel

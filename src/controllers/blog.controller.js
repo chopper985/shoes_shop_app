@@ -51,7 +51,8 @@ class BlogController {
     //[GET] /api/blog/getBlog/{getId}
     async getBlog(req, res) {
         try {
-            const result = await BlogService.getBlog({
+            console.log(req.query.getId);
+            const result = await BlogService.getAllBlog({
                 _id: req.query.getId,
                 isDeleted: false,
             });
@@ -98,7 +99,7 @@ class BlogController {
     //[DELETE] /api/blog/delete/:id
     async deleteBlog(req, res) {
         try {
-            const result = await BlogService.getBlog(req.query.getId);
+            const result = await BlogService.findById(req.query.getId);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
@@ -107,7 +108,7 @@ class BlogController {
                     'Get Blog Failed!',
                 );
             }
-            result.isDelete = true;
+            result.isDeleted = true;
             result.save();
             return BaseController.sendSuccess(
                 res,

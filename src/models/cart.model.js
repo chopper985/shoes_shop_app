@@ -5,20 +5,24 @@ const Schema = mongoose.Schema;
 const Cart = new Schema(
     {
         lstProduct: {
-            type: productModel,
+            type: Object,
             required: true,
         },
         amount: {
-            type: Int16Array,
+            type: Number,
             required: true,
         },
         totalPrice: {
-            type: Float32Array,
+            type: Number,
             required: true,
         },
         idAccount: {
             type: String,
             required: true,
+        },
+        isDeleted: {
+            type: Boolean,
+            default: false,
         },
     },
     { timestamps: true },
