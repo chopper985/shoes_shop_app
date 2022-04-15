@@ -8,14 +8,16 @@ const About = new Schema(
             required: true,
             default: 'dongngotngao985@gmail.com',
         },
-        description: {
+        descriptionVi: {
             type: String,
-            required: true,
+            default: '',
+        },
+        descriptionEn: {
+            type: String,
             default: '',
         },
         branch: {
             type: String,
-            required: true,
             default: '',
         },
         facebook: {

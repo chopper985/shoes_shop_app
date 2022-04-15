@@ -4,9 +4,10 @@ const router = express.Router();
 const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
-router.post('/update', verifyToken, Controller.updateAddress);
+router.put('/update', verifyToken, Controller.updateAddress);
+router.put('/updateStatusDefault', verifyToken, Controller.updateStatusDefault);
 router.get('/', verifyToken, Controller.getAddress);
-router.post('/delete', verifyToken, Controller.deleteAddress);
+router.put('/delete', verifyToken, Controller.deleteAddress);
 router.get('/all', verifyToken, Controller.getAllAddress);
 router.post('/create', verifyToken, Controller.createAddress);
 

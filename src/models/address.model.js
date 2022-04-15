@@ -5,21 +5,27 @@ const Address = new Schema(
     {
         district: {
             type: String,
+            required: true,
         },
         ward: {
             type: String,
+            required: true,
         },
         street: {
             type: String,
+            required: true,
         },
         status: {
             type: Boolean,
+            default: false,
         },
         nameReciever: {
             type: String,
+            required: true,
         },
         phoneReciever: {
             type: Number,
+            required: true,
         },
         idAccount: {
             type: String,

@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const Blog = new Schema(
     {
-        content: {
+        contentVi: {
+            type: String,
+            required: true,
+        },
+        contentEn: {
             type: String,
             required: true,
         },
@@ -15,7 +19,11 @@ const Blog = new Schema(
             type: String,
             required: true,
         },
-        descriptionShort: {
+        descriptionShortVi: {
+            type: String,
+            required: true,
+        },
+        descriptionShortEn: {
             type: String,
             required: true,
         },

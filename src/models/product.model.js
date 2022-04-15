@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const Product = new Schema(
     {
-        nameProduct: {
+        nameProductVi: {
+            type: String,
+            required: true,
+        },
+        nameProductEn: {
             type: String,
             required: true,
         },
@@ -20,7 +24,11 @@ const Product = new Schema(
             type: String,
             required: true,
         },
-        description: {
+        descriptionVi: {
+            type: String,
+            required: true,
+        },
+        descriptionEn: {
             type: String,
             required: true,
         },

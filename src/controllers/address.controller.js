@@ -6,8 +6,16 @@ class AddressController {
     //[POST] /api/address/create
     async createAddress(req, res) {
         try {
+            const idAccount = req.value.body.decodeToken._id;
+            const lstAddress = await AddressService.findAll({
+                idAccount: idAccount,
+                isDeleted: false,
+            });
             const result = await AddressService.create(req.body);
             result.idAccount = req.value.body.decodeToken._id;
+            if (lstAddress.length === 0) {
+                result.status = true;
+            }
             result.save();
             if (result === null) {
                 return BaseController.sendSuccess(
@@ -74,6 +82,38 @@ class AddressController {
                 201,
                 'Get Address Success!',
             );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[PUT] /api/address/changeStatusDefault
+    async updateStatusDefault(req, res) {
+        try {
+            const addressUpdate = await AddressService.findAddressById(
+                req.query.getId,
+            );
+            if (addressUpdate != null && addressUpdate.isDeleted === false) {
+                const idAccount = req.value.body.decodeToken._id;
+                const lstAddress = await AddressService.findOne({
+                    idAccount: idAccount,
+                    isDeleted: false,
+                    status: true,
+                });
+                if (lstAddress != null) {
+                    lstAddress.status = false;
+                    lstAddress.save();
+                }
+                addressUpdate.status = true;
+                addressUpdate.save();
+                return BaseController.sendSuccess(
+                    res,
+                    addressUpdate,
+                    201,
+                    'Get Address Success!',
+                );
+            } else {
+                return BaseController.sendSuccess(res, null, 404, 'Not Found!');
+            }
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

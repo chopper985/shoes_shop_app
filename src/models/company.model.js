@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const Company = new Schema(
     {
-        nameCompany: {
+        nameCompanyVi: {
+            type: String,
+            required: true,
+        },
+        nameCompanyEn: {
             type: String,
             required: true,
         },

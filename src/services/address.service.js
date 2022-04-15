@@ -45,5 +45,13 @@ class AddressService extends BaseService {
             return null;
         }
     }
+    async findAddressById(id) {
+        try {
+            const result = await this.findById(id);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 module.exports = new AddressService();
