@@ -27,7 +27,7 @@ class BaseService {
         return this._model.find().countDocuments();
     }
     async countFilter(filter = {}) {
-        return this._model.find().countDocuments((filter = {}));
+        return this._model.find().countDocuments(filter);
     }
 }
 module.exports = BaseService;

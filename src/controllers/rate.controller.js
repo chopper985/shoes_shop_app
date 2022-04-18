@@ -1,51 +1,68 @@
+const RateService = require('../services/rate.service');
 const ProductService = require('../services/product.service');
 const BaseController = require('./baseController');
 
-class ProductController {
+class RateController {
     constructor() {}
-    //[POST] /api/product/create
-    async createProduct(req, res) {
+    //[POST] /api/rate/create
+    async createRate(req, res) {
         try {
-            const result = await ProductService.create(req.body);
+            const result = await RateService.create(req.body);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Create Product Failed!',
+                    'Create Rate Failed!',
                 );
             }
+            result.idAccount = req.value.body.decodeToken._id;
+            result.save();
+            var rateNumber = await RateService.getRateNumberByIdProduct(
+                req.body.idProduct,
+            );
+            const product = await ProductService.getProduct({
+                _id: req.body.idProduct,
+                isDeleted: false,
+            });
+            if (product === null) {
+            }
+            console.log(product);
+            product.rating = rateNumber;
+            product.save();
             return BaseController.sendSuccess(
                 res,
                 result,
                 201,
-                'Create Product Success!',
+                'Create Rate Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/product/getAllProduct
-    async getAllProduct(req, res) {
+    //[GET] /api/rate/getRateAccount
+    async getRateProductByAccount(req, res) {
         try {
-            ProductService.getAllProduct({ isDeleted: false }).then(
-                (product) => {
-                    if (product === null) {
-                        return BaseController.sendSuccess(
-                            res,
-                            null,
-                            300,
-                            'Get All Failed!',
-                        );
-                    }
+            await RateService.getOneRateByAccount({
+                idProduct: req.body.idProduct,
+                idAccount: req.value.body.decodeToken._id,
+                isDeleted: false,
+            }).then((rate) => {
+                if (rate === null) {
                     return BaseController.sendSuccess(
                         res,
-                        product,
-                        201,
-                        'Get All Success!',
+                        null,
+                        300,
+                        'Get Null!',
                     );
-                },
-            );
+                }
+                return BaseController.sendSuccess(
+                    res,
+                    rate,
+                    201,
+                    'Get Rate of Product by account!',
+                );
+            });
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
@@ -75,14 +92,11 @@ class ProductController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[POST] /api/product/update
-    async updateProduct(req, res) {
+    // [POST] /api/rate/update
+    async updateRateByAccount(req, res) {
         try {
-            const product = await ProductService.updateProduct(
-                req.body._id,
-                req.body,
-            );
-            if (product === null) {
+            const rate = await RateService.updateRate(req.body._id, req.body);
+            if (rate === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
@@ -92,7 +106,7 @@ class ProductController {
             }
             return BaseController.sendSuccess(
                 res,
-                product,
+                rate,
                 201,
                 'Update Success!',
             );
@@ -100,30 +114,6 @@ class ProductController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[DELETE] /api/product/delete/:id
-    async deleteProduct(req, res) {
-        try {
-            const result = await ProductService.findById(req.query.getId);
-            if (result === null) {
-                return BaseController.sendSuccess(
-                    res,
-                    null,
-                    300,
-                    'Get Product Failed!',
-                );
-            }
-            result.isDeleted = true;
-            result.save();
-            return BaseController.sendSuccess(
-                res,
-                result,
-                201,
-                'Get Product Success!',
-            );
-        } catch (e) {
-            return BaseController.sendError(res, e.message);
-        }
-    }
 }
 
-module.exports = new ProductController();
+module.exports = new RateController();

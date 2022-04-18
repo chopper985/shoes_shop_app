@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const addressModel = require('./address.model');
-const cartModel = require('./cart.model');
 const Schema = mongoose.Schema;
 
 const Order = new Schema(

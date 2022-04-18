@@ -7,6 +7,7 @@ const BlogRouter = require('./blog.route');
 const AddressRouter = require('./address.route');
 const OrderRouter = require('./order.route');
 const CartRouter = require('./cart.route');
+const RateRouter = require('./rate.route');
 
 const router = express.Router();
 router.use('/blog', BlogRouter);
@@ -17,6 +18,7 @@ router.use('/product', ProductRouter);
 router.use('/account', AccountRouter);
 router.use('/cart', CartRouter);
 router.use('/order', OrderRouter);
+router.use('/rate', RateRouter);
 router.get('/', (req, res) => res.status(200).send('Welcome to SHOP'));
 
 module.exports = router;

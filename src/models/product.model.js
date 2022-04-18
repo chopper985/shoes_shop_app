@@ -34,6 +34,7 @@ const Product = new Schema(
         },
         rating: {
             type: Number,
+            default: null,
         },
         idCompany: {
             type: String,
