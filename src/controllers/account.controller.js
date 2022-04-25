@@ -260,6 +260,66 @@ class AccountController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[POST] /api/account/submitFavorite
+    async submitFavorite(req, res) {
+        try {
+            const user = await AccountService.findById(
+                req.value.body.decodeToken._id,
+            );
+            if (user === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    404,
+                    'Not Found User',
+                );
+            }
+            const index = user.favourites.indexOf(req.body.idProduct);
+            if (index === -1) {
+                user.favourites.splice(
+                    user.favourites.lenght,
+                    0,
+                    req.body.idProduct,
+                );
+                user.save();
+            } else {
+                user.favourites.splice(index, 1);
+                user.save();
+            }
+            return BaseController.sendSuccess(
+                res,
+                null,
+                200,
+                'Submit Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[GET] /api/account/getFavoriteAccount
+    async getFavoriteAccount(req, res) {
+        try {
+            const user = await AccountService.findById(
+                req.value.body.decodeToken._id,
+            );
+            if (user === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    404,
+                    'Not Found User',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                user.favourites,
+                200,
+                'Get Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
 }
 
 module.exports = new AccountController();

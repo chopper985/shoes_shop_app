@@ -21,7 +21,7 @@ class RateController {
             var rateNumber = await RateService.getRateNumberByIdProduct(
                 req.body.idProduct,
             );
-            const product = await ProductService.getProduct({
+            const product = await ProductService.findOne({
                 _id: req.body.idProduct,
                 isDeleted: false,
             });

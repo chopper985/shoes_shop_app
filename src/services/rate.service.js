@@ -15,7 +15,7 @@ class RateService extends BaseService {
     }
     async getAllRate(filter = {}) {
         try {
-            const result = await this.findAll(filter);
+            const result = await this.find(filter);
             console.log(result);
             return result;
         } catch (e) {
@@ -25,17 +25,18 @@ class RateService extends BaseService {
     getRateNumberByIdProduct = async function (id) {
         try {
             var rateNumber = 0;
-            const result = await this.findAll({
+            const result = await this.search({
                 isDeleted: false,
                 idProduct: id,
-            }).t;
+            });
             if (result === null) {
                 return 0;
             }
-            result.array.forEach((element) => {
-                rateNumber += element;
+            console.log(result);
+            result.forEach((element) => {
+                rateNumber += element.rating;
             });
-            rateNumber = rateNumber / result.array.length;
+            rateNumber = rateNumber / result.length;
             console.log(rateNumber);
             return rateNumber;
         } catch (e) {

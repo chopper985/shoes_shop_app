@@ -30,6 +30,14 @@ class ProductService extends BaseService {
             return null;
         }
     }
+    async getProduct(filter = {}) {
+        try {
+            const result = await this.findOne(filter);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async updateProduct(id, item) {
         try {
             const result = await this.findByIdAndUpdate(id, item);

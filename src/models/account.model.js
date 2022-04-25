@@ -25,6 +25,10 @@ const Account = new Schema(
             type: String,
             required: true,
         },
+        favourites: {
+            type: Array,
+            default: [],
+        },
         role: {
             type: String,
             default: 'USER',

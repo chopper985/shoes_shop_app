@@ -5,6 +5,8 @@ const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
 // router.put('/change_passwordId',verifyToken,Controller.changePasswordId);
+router.get('/getFavoriteAccount', verifyToken, Controller.getFavoriteAccount);
+router.post('/submitFavorite', verifyToken, Controller.submitFavorite);
 router.get('/getAccount', verifyToken, Controller.getAccount);
 router.get('/all', verifyToken, admin, Controller.getAllAccount);
 router.post('/sendOtp', Controller.sendOTP);

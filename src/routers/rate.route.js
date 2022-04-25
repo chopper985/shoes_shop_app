@@ -1,5 +1,5 @@
 const express = require('express');
-const Controller = require('../controllers/rate.controller');
+const Controller = require('../controllers/rating.controller');
 const router = express.Router();
 const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');

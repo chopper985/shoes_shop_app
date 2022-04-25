@@ -1,4 +1,5 @@
 const OrderService = require('../services/order.service');
+const ProductService = require('../services/product.service');
 const BaseController = require('./baseController');
 
 class OrderController {
@@ -16,6 +17,24 @@ class OrderController {
                     300,
                     'Create Order Failed!',
                 );
+            }
+            if (result.statusPayment) {
+                result.lstCart.forEach((e) => {
+                    const product = ProductService.search({
+                        _id: e.lstProduct._id,
+                        isDeleted: false,
+                    });
+                    if (product === null) {
+                        return BaseController.sendSuccess(
+                            res,
+                            null,
+                            404,
+                            'Not Found Product!',
+                        );
+                    }
+                    product.quanlity -= e.amount;
+                    product.save();
+                });
             }
             return BaseController.sendSuccess(
                 res,
@@ -157,7 +176,29 @@ class OrderController {
             const order = await OrderService.getOrder(req.body._id);
             if (order) {
                 order.status = req.body.status;
+                if (req.body.status === 2 && order.statusPayment === false) {
+                    order.lstCart.forEach((e) => {
+                        const product = ProductService.search({
+                            _id: e.lstProduct._id,
+                            isDeleted: false,
+                        });
+                        if (product === null) {
+                            return BaseController.sendSuccess(
+                                res,
+                                null,
+                                404,
+                                'Not Found Product!',
+                            );
+                        }
+                        product.quanlity -= e.amount;
+                        product.save();
+                    });
+                }
+                if (req.body.status === 5) {
+                    order.statusPayment = true;
+                }
                 order.save();
+
                 return BaseController.sendSuccess(
                     res,
                     null,
