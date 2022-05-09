@@ -115,25 +115,46 @@ class OrderController {
     //[GET] /api/order/getAllOrder
     async getAllOrder(req, res) {
         try {
-            OrderService.getAllOrder({
-                idAccount: req.value.body.decodeToken._id,
-                isDeleted: false,
-            }).then((product) => {
-                if (product === null) {
+            if (req.value.body.decodeToken.role === 'ADMIN') {
+                OrderService.getAllOrder({
+                    isDeleted: false,
+                }).then((product) => {
+                    if (product === null) {
+                        return BaseController.sendSuccess(
+                            res,
+                            null,
+                            300,
+                            'Get All Failed!',
+                        );
+                    }
                     return BaseController.sendSuccess(
                         res,
-                        null,
-                        300,
-                        'Get All Failed!',
+                        product,
+                        200,
+                        'Get All Success!',
                     );
-                }
-                return BaseController.sendSuccess(
-                    res,
-                    product,
-                    200,
-                    'Get All Success!',
-                );
-            });
+                });
+            } else {
+                OrderService.getAllOrder({
+                    idAccount: req.value.body.decodeToken._id,
+                    isDeleted: false,
+                }).then((product) => {
+                    if (product === null) {
+                        return BaseController.sendSuccess(
+                            res,
+                            null,
+                            300,
+                            'Get All Failed!',
+                        );
+                    }
+                    return BaseController.sendSuccess(
+                        res,
+                        product,
+                        200,
+                        'Get All Success!',
+                    );
+                });
+            }
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
