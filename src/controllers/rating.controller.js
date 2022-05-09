@@ -33,7 +33,7 @@ class RateController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Create Rate Success!',
             );
         } catch (e) {
@@ -59,7 +59,7 @@ class RateController {
                 return BaseController.sendSuccess(
                     res,
                     rate,
-                    201,
+                    200,
                     'Get Rate of Product by account!',
                 );
             });
@@ -67,31 +67,31 @@ class RateController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/product/getProduct/{getId}
-    async getProduct(req, res) {
-        try {
-            const result = await ProductService.getProduct({
-                _id: req.query.getId,
-                isDeleted: false,
-            });
-            if (result === null) {
-                return BaseController.sendSuccess(
-                    res,
-                    null,
-                    300,
-                    'Get Product Failed!',
-                );
-            }
-            return BaseController.sendSuccess(
-                res,
-                result,
-                201,
-                'Get Product Success!',
-            );
-        } catch (e) {
-            return BaseController.sendError(res, e.message);
-        }
-    }
+    // //[GET] /api/product/getProduct/{getId}
+    // async getProduct(req, res) {
+    //     try {
+    //         const result = await ProductService.getProduct({
+    //             _id: req.query.getId,
+    //             isDeleted: false,
+    //         });
+    //         if (result === null) {
+    //             return BaseController.sendSuccess(
+    //                 res,
+    //                 null,
+    //                 300,
+    //                 'Get Product Failed!',
+    //             );
+    //         }
+    //         return BaseController.sendSuccess(
+    //             res,
+    //             result,
+    //             200,
+    //             'Get Product Success!',
+    //         );
+    //     } catch (e) {
+    //         return BaseController.sendError(res, e.message);
+    //     }
+    // }
     // [POST] /api/rate/update
     async updateRateByAccount(req, res) {
         try {
@@ -107,7 +107,7 @@ class RateController {
             return BaseController.sendSuccess(
                 res,
                 rate,
-                201,
+                200,
                 'Update Success!',
             );
         } catch (e) {

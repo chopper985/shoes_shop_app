@@ -1,5 +1,9 @@
+const {
+    ConversationList,
+} = require('twilio/lib/rest/conversations/v1/service/conversation');
 const orderModel = require('../models/order.model');
 const BaseService = require('../services/baseService');
+const ProductService = require('../services/product.service');
 
 class OrderService extends BaseService {
     constructor() {
@@ -23,7 +27,15 @@ class OrderService extends BaseService {
     }
     async getOrder(filter = {}) {
         try {
-            const result = await this.search(filter);
+            const result = await this.findOne(filter);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async getOrderById(id) {
+        try {
+            const result = await this.findById(id);
             return result;
         } catch (e) {
             return null;
@@ -43,6 +55,39 @@ class OrderService extends BaseService {
             return result;
         } catch (e) {
             return null;
+        }
+    }
+    async checkQuanlity(lstCart) {
+        try {
+            for (var i = 0; i < lstCart.length; i++) {
+                const product = await ProductService.findOne({
+                    _id: lstCart[i].lstProduct._id,
+                    isDeleted: false,
+                });
+                if (product === null) {
+                    return BaseController.sendSuccess(
+                        res,
+                        null,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                var index = 0;
+                index = product.type.findIndex(
+                    (t) =>
+                        t.size === lstCart[i].lstProduct.type.size &&
+                        t.color === lstCart[i].lstProduct.type.color,
+                );
+                if (index !== -1) {
+                    if (lstCart[i].amount <= product.type[index].quantity) {
+                        return index;
+                    }
+                }
+            }
+            return -1;
+        } catch (e) {
+            console.log(e);
+            return -1;
         }
     }
 }

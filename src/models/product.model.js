@@ -16,14 +16,6 @@ const Product = new Schema(
             required: true,
             default: '',
         },
-        size: {
-            required: true,
-            type: String,
-        },
-        color: {
-            type: String,
-            required: true,
-        },
         descriptionVi: {
             type: String,
             required: true,
@@ -36,6 +28,30 @@ const Product = new Schema(
             type: Number,
             default: null,
         },
+        quantitySold: {
+            type: Number,
+            default: 0,
+        },
+        type: {
+            type: [{ size: String, quantity: Number, color: String }],
+            default: [],
+        },
+        discount: {
+            type: Number,
+            default: 0,
+        },
+        // size: {
+        //     required: true,
+        //     type: String,
+        // },
+        // color: {
+        //     type: String,
+        //     required: true,
+        // },
+        // quantity: {
+        //     type: Number,
+        //     required: true,
+        // },
         idCompany: {
             type: String,
             required: true,
@@ -47,10 +63,6 @@ const Product = new Schema(
         },
         productCode: {
             type: String,
-            required: true,
-        },
-        quanlity: {
-            type: Number,
             required: true,
         },
         isDeleted: {

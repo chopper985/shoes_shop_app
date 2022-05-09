@@ -14,17 +14,34 @@ const Order = new Schema(
             type: Number,
             default: 1,
         },
-        totalPrice: {
+        totalDiscount: {
+            type: Number,
+            default: 0,
+        },
+        totalShipping: {
             type: Number,
             required: true,
+            default: 0,
+        },
+        totalPriceProduct: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
+        totalPrice: {
+            type: Number,
+            default: 0,
         },
         statusPayment: {
             type: Boolean,
             required: true,
         },
         address: {
-            type: Array,
+            type: Object,
             required: true,
+        },
+        voucher: {
+            type: String,
         },
         isDeleted: {
             type: Boolean,

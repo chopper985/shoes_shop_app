@@ -18,7 +18,7 @@ class ProductController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Create Product Success!',
             );
         } catch (e) {
@@ -41,7 +41,7 @@ class ProductController {
                     return BaseController.sendSuccess(
                         res,
                         product,
-                        201,
+                        200,
                         'Get All Success!',
                     );
                 },
@@ -68,7 +68,7 @@ class ProductController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Get Product Success!',
             );
         } catch (e) {
@@ -93,7 +93,7 @@ class ProductController {
             return BaseController.sendSuccess(
                 res,
                 product,
-                201,
+                200,
                 'Update Success!',
             );
         } catch (e) {
@@ -117,7 +117,76 @@ class ProductController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
+                'Get Product Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[Get] /api/product/getNewProduct
+    async getNewProduct(req, res) {
+        try {
+            const result = await ProductService.getNewProduct();
+            console.log(result);
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Product Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                result,
+                200,
+                'Get Product Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    // [Get] /api/product/getProductTrending
+    async getProductTrending(req, res) {
+        try {
+            const result = await ProductService.getProductTrending();
+            console.log(result);
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Product Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                result,
+                200,
+                'Get Product Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+
+    //[Get] /api/product/getDiscountProduct
+    async getDiscountProduct(req, res) {
+        try {
+            const result = await ProductService.getDiscountProduct();
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Product Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                result,
+                200,
                 'Get Product Success!',
             );
         } catch (e) {

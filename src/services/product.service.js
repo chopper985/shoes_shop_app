@@ -24,7 +24,7 @@ class ProductService extends BaseService {
     }
     async getProduct(filter = {}) {
         try {
-            const result = await this.search(filter);
+            const result = await this.findOne(filter);
             return result;
         } catch (e) {
             return null;
@@ -49,6 +49,39 @@ class ProductService extends BaseService {
     async deleteProduct(id) {
         try {
             const result = await this.findByIdAndRemove(id);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async getNewProduct() {
+        try {
+            const result = await this.getNew(
+                { isDeleted: false },
+                { updatedAt: -1 },
+            );
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async getProductTrending() {
+        try {
+            const result = await this.getNew(
+                { isDeleted: false },
+                { quantitySold: -1 },
+            );
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async getDiscountProduct() {
+        try {
+            const result = await this.getNew(
+                { isDeleted: false, discount: { $gt: 0 } },
+                { discount: -1 },
+            );
             return result;
         } catch (e) {
             return null;

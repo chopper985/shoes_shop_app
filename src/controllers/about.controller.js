@@ -18,7 +18,7 @@ class AboutController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Create About Success!',
             );
         } catch (e) {
@@ -40,7 +40,7 @@ class AboutController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Get About Success!',
             );
         } catch (e) {
@@ -65,7 +65,7 @@ class AboutController {
             return BaseController.sendSuccess(
                 res,
                 about,
-                201,
+                200,
                 'Update Success!',
             );
         } catch (e) {

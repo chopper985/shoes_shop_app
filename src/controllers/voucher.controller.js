@@ -1,36 +1,40 @@
-const CompanyService = require('../services/company.service');
+const VoucherService = require('../services/voucher.service');
 const BaseController = require('./baseController');
+var randomString = require('../validators/randomString');
 
-class CompanyController {
+class VoucherController {
     constructor() {}
-    //[POST] /api/company/create
-    async createCompany(req, res) {
+    //[POST] /api/voucher/create
+    async createVoucher(req, res) {
         try {
-            const result = await CompanyService.create(req.body);
+            const result = await VoucherService.create(req.body);
+            const voucherCode = randomString(6);
+            result.voucherCode = voucherCode;
+            result.save();
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Create Company Failed!',
+                    'Create Voucher Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 200,
-                'Create Company Success!',
+                'Create Voucher Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/company/getAllCompany
-    async getAllCompany(req, res) {
+    //[GET] /api/voucher/getAllVoucher
+    async getAllVoucher(req, res) {
         try {
-            CompanyService.getAllCompany({ isDeleted: false }).then(
-                (product) => {
-                    if (product === null) {
+            VoucherService.getAllVoucher({ isDeleted: false }).then(
+                (voucher) => {
+                    if (voucher === null) {
                         return BaseController.sendSuccess(
                             res,
                             null,
@@ -40,7 +44,7 @@ class CompanyController {
                     }
                     return BaseController.sendSuccess(
                         res,
-                        product,
+                        voucher,
                         200,
                         'Get All Success!',
                     );
@@ -50,10 +54,39 @@ class CompanyController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[GET] /api/company/getCompany/{getId}
-    async getCompany(req, res) {
+    //[GET] /api/voucher/getVoucherByVoucherCode/{code}
+    async getVoucherByVoucherCode(req, res) {
         try {
-            const result = await CompanyService.getCompany({
+            const rs = await VoucherService.getVoucherByVoucherCode({
+                voucherCode: req.body.voucher,
+                isDeleted: false,
+                expiry: {
+                    $gt: req.body.date,
+                },
+            });
+            if (rs === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Voucher Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                rs,
+                200,
+                'Get Voucher Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[GET] /api/voucher/getVoucher/{getId}
+    async getVoucher(req, res) {
+        try {
+            console.log(req.query.getId);
+            const result = await VoucherService.getVoucher({
                 _id: req.query.getId,
                 isDeleted: false,
             });
@@ -62,27 +95,27 @@ class CompanyController {
                     res,
                     null,
                     300,
-                    'Get Company Failed!',
+                    'Get Voucher Failed!',
                 );
             }
             return BaseController.sendSuccess(
                 res,
                 result,
                 200,
-                'Get Company Success!',
+                'Get Voucher Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[POST] /api/company/update
-    async updateCompany(req, res) {
+    //[POST] /api/voucher/update
+    async updateVoucher(req, res) {
         try {
-            const company = await CompanyService.updateCompany(
+            const voucher = await VoucherService.updateVoucher(
                 req.body._id,
                 req.body,
             );
-            if (company === null) {
+            if (voucher === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
@@ -92,7 +125,7 @@ class CompanyController {
             }
             return BaseController.sendSuccess(
                 res,
-                company,
+                voucher,
                 200,
                 'Update Success!',
             );
@@ -100,16 +133,16 @@ class CompanyController {
             return BaseController.sendError(res, e.message);
         }
     }
-    //[DELETE] /api/company/delete/:id
-    async deleteCompany(req, res) {
+    //[DELETE] /api/voucher/delete/:id
+    async deleteVoucher(req, res) {
         try {
-            const result = await CompanyService.findById(req.query.getId);
+            const result = await VoucherService.findById(req.query.getId);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
                     null,
                     300,
-                    'Get Company Failed!',
+                    'Get Voucher Failed!',
                 );
             }
             result.isDeleted = true;
@@ -118,7 +151,7 @@ class CompanyController {
                 res,
                 result,
                 200,
-                'Get Company Success!',
+                'Get Voucher Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);
@@ -126,4 +159,4 @@ class CompanyController {
     }
 }
 
-module.exports = new CompanyController();
+module.exports = new VoucherController();

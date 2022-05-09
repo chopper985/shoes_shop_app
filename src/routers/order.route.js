@@ -7,6 +7,12 @@ const admin = require('../validators/admin');
 router.put('/update', verifyToken, Controller.updateOrder);
 router.put('/updateStatus', verifyToken, Controller.updateStatusOrder);
 router.get('/', verifyToken, Controller.getOrder);
+router.post(
+    '/getStatictisByYear',
+    verifyToken,
+    admin,
+    Controller.getStatictisByYear,
+);
 router.get('/getOrderStatus', verifyToken, Controller.getOrderByStatus);
 router.put('/delete', verifyToken, admin, Controller.deleteOrder);
 router.get('/all', verifyToken, Controller.getAllOrder);

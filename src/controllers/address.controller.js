@@ -28,7 +28,7 @@ class AddressController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Create Address Success!',
             );
         } catch (e) {
@@ -53,7 +53,7 @@ class AddressController {
                 return BaseController.sendSuccess(
                     res,
                     product,
-                    201,
+                    200,
                     'Get All Success!',
                 );
             });
@@ -64,7 +64,7 @@ class AddressController {
     //[GET] /api/address/getAddress/{getId}
     async getAddress(req, res) {
         try {
-            const result = await AddressService.getAllAddress({
+            const result = await AddressService.getAddress({
                 _id: req.query.getId,
                 isDeleted: false,
             });
@@ -79,7 +79,7 @@ class AddressController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Get Address Success!',
             );
         } catch (e) {
@@ -108,7 +108,7 @@ class AddressController {
                 return BaseController.sendSuccess(
                     res,
                     addressUpdate,
-                    201,
+                    200,
                     'Get Address Success!',
                 );
             } else {
@@ -136,7 +136,7 @@ class AddressController {
             return BaseController.sendSuccess(
                 res,
                 address,
-                201,
+                200,
                 'Update Success!',
             );
         } catch (e) {
@@ -160,7 +160,7 @@ class AddressController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Get Address Success!',
             );
         } catch (e) {

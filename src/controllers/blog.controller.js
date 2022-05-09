@@ -18,7 +18,7 @@ class BlogController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Create Blog Success!',
             );
         } catch (e) {
@@ -28,8 +28,8 @@ class BlogController {
     //[GET] /api/blog/getAllBlog
     async getAllBlog(req, res) {
         try {
-            BlogService.getAllBlog({ isDeleted: false }).then((product) => {
-                if (product === null) {
+            BlogService.getAllBlog({ isDeleted: false }).then((voucher) => {
+                if (voucher === null) {
                     return BaseController.sendSuccess(
                         res,
                         null,
@@ -39,8 +39,8 @@ class BlogController {
                 }
                 return BaseController.sendSuccess(
                     res,
-                    product,
-                    201,
+                    voucher,
+                    200,
                     'Get All Success!',
                 );
             });
@@ -52,7 +52,7 @@ class BlogController {
     async getBlog(req, res) {
         try {
             console.log(req.query.getId);
-            const result = await BlogService.getAllBlog({
+            const result = await BlogService.getBlog({
                 _id: req.query.getId,
                 isDeleted: false,
             });
@@ -67,7 +67,7 @@ class BlogController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Get Blog Success!',
             );
         } catch (e) {
@@ -89,7 +89,7 @@ class BlogController {
             return BaseController.sendSuccess(
                 res,
                 blog,
-                201,
+                200,
                 'Update Success!',
             );
         } catch (e) {
@@ -113,7 +113,7 @@ class BlogController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Get Blog Success!',
             );
         } catch (e) {

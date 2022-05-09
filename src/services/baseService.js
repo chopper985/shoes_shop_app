@@ -29,5 +29,8 @@ class BaseService {
     async countFilter(filter = {}) {
         return this._model.find().countDocuments(filter);
     }
+    async getNew(filter = {}, orderBy = {}) {
+        return this._model.find(filter).sort(orderBy).limit(10);
+    }
 }
 module.exports = BaseService;

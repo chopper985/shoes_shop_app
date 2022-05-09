@@ -8,8 +8,12 @@ const AddressRouter = require('./address.route');
 const OrderRouter = require('./order.route');
 const CartRouter = require('./cart.route');
 const RateRouter = require('./rate.route');
+// const TypeRouter = require('./type.route');
+const VoucherRouter = require('./voucher.route');
 
 const router = express.Router();
+// router.use('/type', TypeRouter);
+router.use('/voucher', VoucherRouter);
 router.use('/blog', BlogRouter);
 router.use('/address', AddressRouter);
 router.use('/about', AboutRouter);

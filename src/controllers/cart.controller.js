@@ -21,7 +21,7 @@ class CartController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Create Cart Success!',
             );
         } catch (e) {
@@ -33,6 +33,7 @@ class CartController {
         try {
             CartService.getAllCart({
                 idAccount: req.value.body.decodeToken._id,
+                isOrdered: false,
                 isDeleted: false,
             }).then((product) => {
                 if (product === null) {
@@ -46,7 +47,7 @@ class CartController {
                 return BaseController.sendSuccess(
                     res,
                     product,
-                    201,
+                    200,
                     'Get All Success!',
                 );
             });
@@ -57,8 +58,9 @@ class CartController {
     //[GET] /api/cart/getCart/{getId}
     async getCart(req, res) {
         try {
-            const result = await CartService.getAllCart({
+            const result = await CartService.getCart({
                 _id: req.query.getId,
+                isOrdered: false,
                 isDeleted: false,
             });
             if (result === null) {
@@ -72,7 +74,7 @@ class CartController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Get Cart Success!',
             );
         } catch (e) {
@@ -89,7 +91,7 @@ class CartController {
                 return BaseController.sendSuccess(
                     res,
                     cart,
-                    201,
+                    200,
                     'Update Success!',
                 );
             }
@@ -120,7 +122,7 @@ class CartController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Get Cart Success!',
             );
         } catch (e) {

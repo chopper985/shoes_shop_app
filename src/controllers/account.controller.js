@@ -27,7 +27,7 @@ class AccountController {
             return BaseController.sendSuccess(
                 res,
                 result,
-                201,
+                200,
                 'Create User Success!',
             );
         } catch (e) {
@@ -53,7 +53,7 @@ class AccountController {
                 ),
                 role: result.role,
             };
-            return BaseController.sendSuccess(res, data, 201, 'Login Success!');
+            return BaseController.sendSuccess(res, data, 200, 'Login Success!');
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
@@ -73,7 +73,7 @@ class AccountController {
                 return BaseController.sendSuccess(
                     res,
                     user,
-                    201,
+                    200,
                     'Get All Success!',
                 );
             });
@@ -99,7 +99,7 @@ class AccountController {
             return BaseController.sendSuccess(
                 res,
                 user,
-                201,
+                200,
                 'Get User Success!',
             );
         } catch (e) {
@@ -124,7 +124,7 @@ class AccountController {
             return BaseController.sendSuccess(
                 res,
                 user,
-                201,
+                200,
                 'Update Success!',
             );
         } catch (e) {
@@ -245,7 +245,7 @@ class AccountController {
                 return BaseController.sendSuccess(
                     res,
                     user,
-                    201,
+                    200,
                     'Change Password Success!',
                 );
             } else {

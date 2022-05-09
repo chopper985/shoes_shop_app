@@ -3,6 +3,14 @@ const Schema = mongoose.Schema;
 
 const Blog = new Schema(
     {
+        titleVi: {
+            type: String,
+            required: true,
+        },
+        titleEn: {
+            type: String,
+            required: true,
+        },
         contentVi: {
             type: String,
             required: true,
