@@ -4,6 +4,7 @@ const router = express.Router();
 const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
+router.get('/getProductbyCompany/', Controller.getProductByCompany);
 router.get('/getNewProduct', Controller.getNewProduct);
 router.get('/getDiscountProduct', Controller.getDiscountProduct);
 router.get('/getProductTrending', Controller.getProductTrending);

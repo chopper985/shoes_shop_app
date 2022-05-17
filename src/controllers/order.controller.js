@@ -2,13 +2,77 @@ const OrderService = require('../services/order.service');
 const ProductService = require('../services/product.service');
 const VoucherService = require('../services/voucher.service');
 const BaseController = require('./baseController');
+const paypal = require('paypal-rest-sdk');
+const paypalModel = require('../models/paypal.model');
+const orderModel = require('../models/order.model');
 var getDayEnd = require('../validators/getDayEnd');
 const productModel = require('../models/product.model');
-const CartService = require('../services/cart.service');
 const cartService = require('../services/cart.service');
+const {
+    paymentMethod,
+    FormatDollar,
+    paymentSuccess,
+    cancelPayment,
+    RefundPayment,
+} = require('../validators/payment');
 
 class OrderController {
     constructor() {}
+    //[POST]
+    async paymentSuccess(req, res) {
+        const payerId = req.query.PayerID;
+        const paymentId = req.query.paymentId;
+        const price = req.query.price;
+        const idDonHang = req.query.idDonHang;
+        var update = { typePayment: 'PayPal' };
+        const execute_payment_json = {
+            payer_id: payerId,
+            transactions: [
+                {
+                    amount: {
+                        currency: 'USD',
+                        total: `${price}`,
+                    },
+                },
+            ],
+        };
+        paypal.payment.execute(
+            paymentId,
+            execute_payment_json,
+            async function (error, payment) {
+                if (error) {
+                    res.send('Payment Fail');
+                } else {
+                    await orderModel.findOneAndUpdate(
+                        { _id: idDonHang },
+                        update,
+                        {
+                            new: true,
+                        },
+                    );
+
+                    await paypalModel.create({
+                        idOrder: idDonHang,
+                        Transaction: price,
+                        idPaypal:
+                            payment.transactions[0].related_resources[0].sale
+                                .id,
+                    });
+                    res.send({
+                        message: 'Success',
+                        paymentId:
+                            payment.transactions[0].related_resources[0].sale
+                                .id,
+                        id_Order: idDonHang,
+                    });
+                }
+            },
+        );
+    }
+    //[]
+    async cancelPayment(req, res) {
+        res.send('Payment is canceled');
+    }
     //[POST] /api/order/create
     async createOrder(req, res) {
         try {
@@ -28,7 +92,7 @@ class OrderController {
                                         $gt: result.createdAt,
                                     },
                                 });
-
+                            // Voucher
                             if (voucher !== null) {
                                 const priceDiscound =
                                     (result.totalPriceProduct *
@@ -57,7 +121,7 @@ class OrderController {
                             );
                         }
                         for (var i = 0; i < result.lstCart.length; i++) {
-                            //Cart
+                            // Cart
                             const cart = await cartService.getCart({
                                 _id: result.lstCart[i]._id,
                                 isOrder: false,
@@ -73,7 +137,7 @@ class OrderController {
                             }
                             cart.isOrdered = true;
                             cart.save();
-                            //Product
+                            // Product
                             const product = await productModel.findOne({
                                 _id: result.lstCart[i].lstProduct._id,
                                 isDeleted: false,
@@ -92,12 +156,46 @@ class OrderController {
                             console.log(product.type[rs]);
                             await product.save();
                         }
-                        return BaseController.sendSuccess(
-                            res,
-                            result,
-                            200,
-                            'Create Order Success!',
-                        );
+                        var resultPayment;
+                        // Payment - Paypal
+                        if (req.body.typePayment === 'Paypal') {
+                            await paymentMethod(
+                                result.totalPrice,
+                                result._id,
+                                async function (error, payment) {
+                                    if (error) {
+                                        resultPayment = error;
+                                    } else {
+                                        for (
+                                            let i = 0;
+                                            i < payment.links.length;
+                                            i++
+                                        ) {
+                                            if (
+                                                payment.links[i].rel ===
+                                                'approval_url'
+                                            ) {
+                                                resultPayment =
+                                                    payment.links[i].href;
+                                                return BaseController.sendSuccess(
+                                                    res,
+                                                    null,
+                                                    200,
+                                                    { link: resultPayment },
+                                                );
+                                            }
+                                        }
+                                    }
+                                },
+                            );
+                        } else {
+                            return BaseController.sendSuccess(
+                                res,
+                                result,
+                                200,
+                                'Create Order Success!',
+                            );
+                        }
                     } else {
                         return BaseController.sendSuccess(
                             res,
@@ -263,6 +361,7 @@ class OrderController {
             const order = await OrderService.getOrderById(req.body._id);
             if (order) {
                 order.status = req.body.status;
+                console.log(req.body.status === 5);
                 if (req.body.status === 5) {
                     order.lstCart.forEach(async (e) => {
                         const product = await ProductService.getProduct({
@@ -286,14 +385,29 @@ class OrderController {
                         if (index !== -1) {
                             product.type[index].quantity += e.amount;
                             product.quantitySold -= e.amount;
-                            await product
-                                .save()
-                                .then((rs) => console.log(rs))
-                                .catch((err) => console.log(err));
+                            await product.save();
                         }
                     });
-                }
-                if (req.body.status === 4) {
+                    console.log(order.typePayment);
+                    if (order.typePayment === 'PayPal') {
+                        await RefundPayment(
+                            order._id,
+                            async function (error, refund) {
+                                if (error) {
+                                    console.log(error);
+                                    return BaseController.sendSuccess(
+                                        res,
+                                        null,
+                                        300,
+                                        'ERROR',
+                                    );
+                                } else {
+                                    console.log(refund + 'TTTT');
+                                }
+                            },
+                        );
+                    }
+                } else if (req.body.status === 4) {
                     order.statusPayment = true;
                 }
                 await order.save();

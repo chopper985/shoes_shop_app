@@ -12,4 +12,4 @@ const Paypal = new Schema(
     },
 );
 
-module.exports = mongoose.model('paypal', Paypal);
+module.exports = mongoose.model('Paypal', Paypal);

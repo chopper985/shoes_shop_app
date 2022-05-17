@@ -50,6 +50,31 @@ class ProductController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[GET] /api/product/getProductByCompany/{getId}
+    async getProductByCompany(req, res) {
+        try {
+            const result = await ProductService.getAllProduct({
+                idCompany: req.query.getIdCompany,
+                isDeleted: false,
+            });
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Product Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                result,
+                200,
+                'Get Product Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
     //[GET] /api/product/getProduct/{getId}
     async getProduct(req, res) {
         try {

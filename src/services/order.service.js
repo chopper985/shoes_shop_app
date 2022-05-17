@@ -1,6 +1,3 @@
-const {
-    ConversationList,
-} = require('twilio/lib/rest/conversations/v1/service/conversation');
 const orderModel = require('../models/order.model');
 const BaseService = require('../services/baseService');
 const ProductService = require('../services/product.service');
@@ -49,10 +46,26 @@ class OrderService extends BaseService {
             return null;
         }
     }
+    async updateOrder(id, item) {
+        try {
+            const result = await this.findByIdAndUpdate(id, item);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async deleteOrder(id) {
         try {
             const result = await this.findByIdAndRemove(id);
             return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async updateFieldOrder(id, update = {}) {
+        try {
+            const rs = await this.updateField({ _id: id }, update);
+            return rs;
         } catch (e) {
             return null;
         }

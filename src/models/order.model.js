@@ -40,6 +40,11 @@ const Order = new Schema(
             type: Object,
             required: true,
         },
+        typePayment: {
+            type: String,
+            required: true,
+            default: 'OTD',
+        },
         voucher: {
             type: String,
         },

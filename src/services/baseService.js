@@ -32,5 +32,10 @@ class BaseService {
     async getNew(filter = {}, orderBy = {}) {
         return this._model.find(filter).sort(orderBy).limit(10);
     }
+    async updateField(one = {}, update = {}) {
+        return this._model.findOneAndUpdate(one, update, {
+            new: true,
+        });
+    }
 }
 module.exports = BaseService;
