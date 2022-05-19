@@ -56,69 +56,29 @@ exports.RefundPayment = async (idOrder, next) => {
     );
 };
 
-// exports.paymentSuccess = (req, res) => {
-//  const payerId = req.query.PayerID;
-//  const paymentId = req.query.paymentId;
-//  const price = req.query.price;
-//  const idDonHang = req.query.idDonHang;
-//  var update = { typePayment: 'PayPal' };
-//  const execute_payment_json = {
-//   payer_id: payerId,
-//   transactions: [
-//    {
-//     amount: {
-//      currency: 'USD',
-//      total: `${price}`
-//     }
-//    }
-//   ]
-//  };
-//  paypal.payment.execute(
-//   paymentId,
-//   execute_payment_json,
-//   async function (error, payment) {
-//    if (error) {
-//     res.send('Payment Fail');
-//    } else {
-//     await orderModel.findOneAndUpdate({ _id: idDonHang }, update, {
-//      new: true
-//     });
-
-//     await paypalModel.create({
-//      idOrder: idDonHang,
-//      Transaction: price,
-//      idPaypal: payment.transactions[0].related_resources[0].sale.id
-//     });
-//     res.send({
-//      message: 'Success',
-//      paymentId: payment.transactions[0].related_resources[0].sale.id,
-//      id_Order: idDonHang
-//     });
-//    }
-//   }
-//  );
-// };
-
 exports.cancelPayment = (req, res, next) => {
     res.send('Payment is canceled');
 };
 
-// exports.sortObject = obj => {
-//  var sorted = {};
-//  var str = [];
-//  var key;
+exports.sortObject = (obj) => {
+    var sorted = {};
+    var str = [];
+    var key;
 
-//  for (key in obj) {
-//   if (obj.hasOwnProperty(key)) {
-//    str.push(encodeURIComponent(key));
-//   }
-//  }
-//  str.sort();
-//  for (key = 0; key < str.length; key++) {
-//   sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(/%20/g, '+');
-//  }
-//  return sorted;
-// };
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            str.push(encodeURIComponent(key));
+        }
+    }
+    str.sort();
+    for (key = 0; key < str.length; key++) {
+        sorted[str[key]] = encodeURIComponent(obj[str[key]]).replace(
+            /%20/g,
+            '+',
+        );
+    }
+    return sorted;
+};
 exports.FormatDollar = (tienDo) => {
     var tienDo2f = Math.round(tienDo * 100) / 100;
     var tienDo3f = Math.round(tienDo * 1000) / 1000;

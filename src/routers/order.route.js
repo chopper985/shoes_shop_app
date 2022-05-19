@@ -5,6 +5,7 @@ const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
 router.get('/cancel', Controller.cancelPayment);
+router.get('/successVnPay', Controller.successVnPayOrder);
 router.get('/success', Controller.paymentSuccess);
 router.put('/update', verifyToken, Controller.updateOrder);
 router.put('/updateStatus', verifyToken, Controller.updateStatusOrder);
