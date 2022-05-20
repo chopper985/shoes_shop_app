@@ -10,5 +10,6 @@ const envs = {
     TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
     CLIENTID: process.env.CLIENTID,
     SECRET: process.env.SECRET,
+    GHTK_TOKEN: process.env.GHTK_TOKEN,
 };
 module.exports = envs;

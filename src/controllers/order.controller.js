@@ -1,13 +1,18 @@
+const paypal = require('paypal-rest-sdk');
+//Service
 const OrderService = require('../services/order.service');
 const ProductService = require('../services/product.service');
 const VoucherService = require('../services/voucher.service');
-const BaseController = require('./baseController');
-const paypal = require('paypal-rest-sdk');
+const cartService = require('../services/cart.service');
+//Model
 const paypalModel = require('../models/paypal.model');
 const orderModel = require('../models/order.model');
-var getDayEnd = require('../validators/getDayEnd');
 const productModel = require('../models/product.model');
-const cartService = require('../services/cart.service');
+const BaseController = require('./baseController');
+//middleware
+const { GHTK_TOKEN } = require('../commons/configs/env');
+var getDayEnd = require('../validators/getDayEnd');
+const axios = require('axios').default;
 const {
     paymentMethod,
     FormatDollar,
@@ -136,10 +141,44 @@ class OrderController {
                                 await voucher.save();
                             }
                         }
+                        await axios
+                            .get(
+                                'https://services.giaohangtietkiem.vn/services/shipment/fee',
+                                {
+                                    params: {
+                                        address:
+                                            result.address.street +
+                                            ',' +
+                                            result.address.ward +
+                                            ',' +
+                                            result.address.district,
+                                        province: 'Hồ Chí Minh',
+                                        district: result.address.district,
+                                        pick_province: 'Hồ Chí Minh',
+                                        pick_district: 'Thủ Đức',
+                                        weight: 5,
+                                    },
+                                    headers: { Token: GHTK_TOKEN },
+                                },
+                            )
+                            .then(function (response) {
+                                console.log(response.data);
+                                result.totalShipping = response.data.fee.fee;
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            })
+                            .then(function () {
+                                // always executed
+                            });
                         result.totalPrice =
                             result.totalPriceProduct -
                             result.totalDiscount -
                             result.totalShipping;
+                        console.log(result.totalPrice);
+                        console.log(result.totalPriceProduct);
+                        console.log(result.totalDiscount);
+                        console.log(result.totalShipping);
                         await result.save();
                         if (result === null) {
                             return BaseController.sendSuccess(
@@ -186,10 +225,13 @@ class OrderController {
                             await product.save();
                         }
                         var resultPayment;
+                        var changePriceOrder = FormatDollar(
+                            result.totalPrice / 24000,
+                        );
                         // Payment - Paypal
                         if (req.body.typePayment === 'Paypal') {
                             await paymentMethod(
-                                result.totalPrice,
+                                changePriceOrder,
                                 result._id,
                                 async function (error, payment) {
                                     if (error) {
