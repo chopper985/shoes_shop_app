@@ -186,6 +186,7 @@ class OrderController {
                                 null,
                                 300,
                                 'Create Order Failed!',
+                                npom,
                             );
                         }
                         for (var i = 0; i < result.lstCart.length; i++) {
