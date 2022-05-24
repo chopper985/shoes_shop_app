@@ -30,9 +30,9 @@ class ProductService extends BaseService {
             return null;
         }
     }
-    async getProduct(filter = {}) {
+    async getProductByName(filter = {}) {
         try {
-            const result = await this.findOne(filter);
+            const result = await this.search(filter);
             return result;
         } catch (e) {
             return null;

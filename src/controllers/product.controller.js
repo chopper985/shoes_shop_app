@@ -100,6 +100,36 @@ class ProductController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[GET] /api/product/getProductByName
+    async getProductByName(req, res) {
+        try {
+            console.log(req.body.nameProductVi);
+            const result = await ProductService.getProductByName({
+                nameProductVi: {
+                    $regex: req.body.nameProductVi,
+                    $options: 'i',
+                },
+                isDeleted: false,
+            });
+            console.log(result);
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Product Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                result,
+                200,
+                'Get Product Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
     //[POST] /api/product/update
     async updateProduct(req, res) {
         try {

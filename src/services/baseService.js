@@ -30,7 +30,7 @@ class BaseService {
         return this._model.find().countDocuments(filter);
     }
     async getNew(filter = {}, orderBy = {}) {
-        return this._model.find(filter).sort(orderBy).limit(10);
+        return this._model.find(filter).sort(orderBy).limit(5);
     }
     async updateField(one = {}, update = {}) {
         return this._model.findOneAndUpdate(one, update, {
