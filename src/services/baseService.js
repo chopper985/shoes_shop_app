@@ -32,6 +32,13 @@ class BaseService {
     async getNew(filter = {}, orderBy = {}) {
         return this._model.find(filter).sort(orderBy).limit(5);
     }
+    async getLimitSkip(filter = {}, limit, skip) {
+        return this._model
+            .find(filter)
+            .sort({ createdAt: -1 })
+            .skip(Number(limit) * Number(skip) - Number(limit))
+            .limit(Number(limit));
+    }
     async updateField(one = {}, update = {}) {
         return this._model.findOneAndUpdate(one, update, {
             new: true,

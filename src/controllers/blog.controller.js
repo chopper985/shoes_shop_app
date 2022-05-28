@@ -28,7 +28,11 @@ class BlogController {
     //[GET] /api/blog/getAllBlog
     async getAllBlog(req, res) {
         try {
-            BlogService.getAllBlog({ isDeleted: false }).then((voucher) => {
+            await BlogService.getAllBlog(
+                { isDeleted: false },
+                req.body.limit,
+                req.body.skip,
+            ).then((voucher) => {
                 if (voucher === null) {
                     return BaseController.sendSuccess(
                         res,

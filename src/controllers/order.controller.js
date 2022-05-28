@@ -152,7 +152,7 @@ class OrderController {
                                             result.address.ward +
                                             ',' +
                                             result.address.district,
-                                        province: 'Hồ Chí Minh',
+                                        province: result.address.province,
                                         district: result.address.district,
                                         pick_province: 'Hồ Chí Minh',
                                         pick_district: 'Thủ Đức',

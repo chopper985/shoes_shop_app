@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 const Address = new Schema(
     {
+        province: {
+            type: String,
+            required: true,
+        },
         district: {
             type: String,
             required: true,

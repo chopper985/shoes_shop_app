@@ -22,6 +22,24 @@ class ProductService extends BaseService {
             return null;
         }
     }
+    async getProductByCompany(filter = {}, skip, limit) {
+        try {
+            const result = await this.getLimitSkip(filter, limit, skip);
+            console.log(result);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async countProductByCompany(filter = {}) {
+        try {
+            const result = await this.countFilter(filter);
+            console.log(result);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async getProduct(filter = {}) {
         try {
             const result = await this.findOne(filter);
@@ -30,9 +48,9 @@ class ProductService extends BaseService {
             return null;
         }
     }
-    async getProductByName(filter = {}) {
+    async getProductByName(filter = {}, limit, skip) {
         try {
-            const result = await this.search(filter);
+            const result = await this.getLimitSkip(filter, limit, skip);
             return result;
         } catch (e) {
             return null;

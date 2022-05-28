@@ -13,9 +13,9 @@ class BlogService extends BaseService {
             return null;
         }
     }
-    async getAllBlog(filter = {}) {
+    async getAllBlog(filter = {}, limit, skip) {
         try {
-            const result = await this.search(filter);
+            const result = await this.getLimitSkip(filter, limit, skip);
             console.log(result);
             return result;
         } catch (e) {

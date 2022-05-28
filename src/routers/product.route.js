@@ -5,7 +5,7 @@ const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
 router.post('/getProductbyName', Controller.getProductByName);
-router.get('/getProductbyCompany/', Controller.getProductByCompany);
+router.post('/getProductbyCompany', Controller.getProductByCompany);
 router.get('/getNewProduct', Controller.getNewProduct);
 router.get('/getDiscountProduct', Controller.getDiscountProduct);
 router.get('/getProductTrending', Controller.getProductTrending);

@@ -11,6 +11,20 @@ class BaseController {
         });
     }
 
+    sendSuccessProduct(
+        res,
+        data,
+        totalProdcut,
+        status = 200,
+        message = 'success',
+    ) {
+        return res.status(status).json({
+            message: message,
+            data: data,
+            totalProdcut: totalProdcut,
+        });
+    }
+
     sendError(res, message) {
         return res.status(500).json({
             message: message || 'internal server error',

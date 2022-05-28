@@ -53,21 +53,31 @@ class ProductController {
     //[GET] /api/product/getProductByCompany/{getId}
     async getProductByCompany(req, res) {
         try {
-            const result = await ProductService.getAllProduct({
-                idCompany: req.query.getIdCompany,
+            const result = await ProductService.getProductByCompany(
+                {
+                    idCompany: req.body.idCompany,
+                    isDeleted: false,
+                },
+                req.body.skip,
+                req.body.limit,
+            );
+            const totalProduct = await ProductService.countProductByCompany({
+                idCompany: req.body.idCompany,
                 isDeleted: false,
             });
             if (result === null) {
-                return BaseController.sendSuccess(
+                return BaseController.sendSuccessProduct(
                     res,
                     null,
+                    0,
                     300,
                     'Get Product Failed!',
                 );
             }
-            return BaseController.sendSuccess(
+            return BaseController.sendSuccessProduct(
                 res,
                 result,
+                totalProduct,
                 200,
                 'Get Product Success!',
             );
@@ -104,25 +114,39 @@ class ProductController {
     async getProductByName(req, res) {
         try {
             console.log(req.body.nameProductVi);
-            const result = await ProductService.getProductByName({
+            const result = await ProductService.getProductByName(
+                {
+                    nameProductVi: {
+                        $regex: req.body.nameProductVi,
+                        $options: 'i',
+                    },
+                    isDeleted: false,
+                },
+                req.body.limit,
+                req.body.skip,
+            );
+            console.log(result);
+            const totalProduct = await ProductService.countProductByCompany({
                 nameProductVi: {
                     $regex: req.body.nameProductVi,
                     $options: 'i',
                 },
                 isDeleted: false,
             });
-            console.log(result);
             if (result === null) {
-                return BaseController.sendSuccess(
+                return BaseController.sendSuccessProduct(
                     res,
                     null,
+                    0,
+
                     300,
                     'Get Product Failed!',
                 );
             }
-            return BaseController.sendSuccess(
+            return BaseController.sendSuccessProduct(
                 res,
                 result,
+                totalProduct,
                 200,
                 'Get Product Success!',
             );
