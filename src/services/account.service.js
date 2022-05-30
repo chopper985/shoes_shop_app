@@ -22,6 +22,14 @@ class AccountService extends BaseService {
             return null;
         }
     }
+    async getAccountById(id) {
+        try {
+            const result = await this.findById(id);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async getAccount(filter = {}) {
         try {
             const result = await this.findOne(filter);

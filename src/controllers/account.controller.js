@@ -222,7 +222,7 @@ class AccountController {
     //[POST]
     async changePassword(req, res) {
         try {
-            const user = await AccountService.getAccount(
+            const user = await AccountService.getAccountById(
                 req.value.body.decodeToken._id,
             );
             if (user === null) {

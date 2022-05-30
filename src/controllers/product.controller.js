@@ -250,6 +250,118 @@ class ProductController {
         }
     }
 
+    //[POST] /api/product/search
+    async searchProduct(req, res) {
+        try {
+            var result;
+            var totalProduct;
+            console.log(req.body.name);
+            console.log(req.body.idCompant);
+            if (
+                req.body.nameProductVi === undefined &&
+                req.body.idCompany !== undefined
+            ) {
+                result = await ProductService.getProductByCompany(
+                    {
+                        idCompany: req.body.idCompany,
+                        isDeleted: false,
+                    },
+                    req.body.skip,
+                    req.body.limit,
+                );
+                totalProduct = await ProductService.countProductByCompany({
+                    idCompany: req.body.idCompany,
+                    isDeleted: false,
+                });
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+            } else if (
+                req.body.nameProductVi !== undefined &&
+                req.body.idCompany === undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        nameProductVi: {
+                            $regex: req.body.nameProductVi,
+                            $options: 'i',
+                        },
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                console.log(result);
+                totalProduct = await ProductService.countProductByCompany({
+                    nameProductVi: {
+                        $regex: req.body.nameProductVi,
+                        $options: 'i',
+                    },
+                    isDeleted: false,
+                });
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+            } else if (
+                req.body.nameProductVi !== undefined &&
+                req.body.idCompany !== undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        idCompany: req.body.idCompany,
+                        nameProductVi: {
+                            $regex: req.body.nameProductVi,
+                            $options: 'i',
+                        },
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                console.log(result + 'TTT');
+                totalProduct = await ProductService.countProductByCompany({
+                    idCompany: req.body.idCompany,
+                    nameProductVi: {
+                        $regex: req.body.nameProductVi,
+                        $options: 'i',
+                    },
+                    isDeleted: false,
+                });
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+            }
+            console.log(result);
+            return BaseController.sendSuccessProduct(
+                res,
+                result,
+                totalProduct,
+                200,
+                'Get Product Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+
     //[Get] /api/product/getDiscountProduct
     async getDiscountProduct(req, res) {
         try {
