@@ -33,7 +33,14 @@ const Product = new Schema(
             default: 0,
         },
         type: {
-            type: [{ size: String, quantity: Number, color: String }],
+            type: [
+                {
+                    size: String,
+                    quantity: Number,
+                    color: String,
+                    codeColor: String,
+                },
+            ],
             default: [],
         },
         discount: {

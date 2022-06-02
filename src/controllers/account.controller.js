@@ -166,7 +166,7 @@ class AccountController {
                 const dateSubmitOTP = new Date(req.body.time);
                 const difference = Math.abs(dateSubmitOTP - dateSendOTP);
                 const minute = difference / (1000 * 60);
-                if (minute >= 0 && minute <= 5) {
+                if (minute >= 0 && minute <= 3) {
                     if (req.body.otp === user.otp) {
                         return BaseController.sendSuccess(
                             res,
