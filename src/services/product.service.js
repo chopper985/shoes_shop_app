@@ -83,6 +83,17 @@ class ProductService extends BaseService {
             return null;
         }
     }
+    async getRelatedProducts(id, idCompany) {
+        try {
+            const result = await this.getNew(
+                { isDeleted: false, _id: { $ne: id }, idCompany: idCompany },
+                { updatedAt: -1 },
+            );
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async getProductTrending() {
         try {
             const result = await this.getNew(

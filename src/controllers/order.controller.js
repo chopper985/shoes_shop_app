@@ -193,7 +193,6 @@ class OrderController {
                             // Cart
                             const cart = await cartService.getCart({
                                 _id: result.lstCart[i]._id,
-                                isOrder: false,
                                 isDeleted: false,
                             });
                             if (cart === null) {
@@ -204,7 +203,7 @@ class OrderController {
                                     'Not Cart!',
                                 );
                             }
-                            cart.isOrdered = true;
+                            cart.isDeleted = true;
                             cart.save();
                             // Product
                             const product = await productModel.findOne({

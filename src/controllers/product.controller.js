@@ -1,4 +1,5 @@
 const ProductService = require('../services/product.service');
+const CompanyService = require('../services/company.service');
 const BaseController = require('./baseController');
 
 class ProductController {
@@ -207,7 +208,7 @@ class ProductController {
     async getNewProduct(req, res) {
         try {
             const result = await ProductService.getNewProduct();
-            console.log(result);
+            // console.log(result);
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
@@ -216,9 +217,21 @@ class ProductController {
                     'Get Product Failed!',
                 );
             }
+            var rs = new Array();
+            for (var i = 0; i < result.length; i++) {
+                const company = await CompanyService.findById(
+                    result[i].idCompany,
+                );
+                rs.push(
+                    Object({
+                        product: result[i],
+                        companyName: company.nameCompany,
+                    }),
+                );
+            }
             return BaseController.sendSuccess(
                 res,
-                result,
+                rs,
                 200,
                 'Get Product Success!',
             );
@@ -366,6 +379,44 @@ class ProductController {
     async getDiscountProduct(req, res) {
         try {
             const result = await ProductService.getDiscountProduct();
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Product Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                result,
+                200,
+                'Get Product Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+
+    //[Get] /api/product/getRelatedProducts
+    async getRelatedProducts(req, res) {
+        try {
+            const product = await ProductService.getProduct({
+                _id: req.query.getId,
+                isDeleted: false,
+            });
+            if (product === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Product Failed!',
+                );
+            }
+            const result = await ProductService.getRelatedProducts(
+                req.query.getId,
+                product.idCompany,
+            );
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,

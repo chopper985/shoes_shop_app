@@ -31,9 +31,8 @@ class CartController {
     //[GET] /api/cart/getAllCart
     async getAllCart(req, res) {
         try {
-            CartService.getAllCart({
+            await CartService.getAllCart({
                 idAccount: req.value.body.decodeToken._id,
-                isOrdered: false,
                 isDeleted: false,
             }).then((product) => {
                 if (product === null) {
@@ -60,7 +59,6 @@ class CartController {
         try {
             const result = await CartService.getCart({
                 _id: req.query.getId,
-                isOrdered: false,
                 isDeleted: false,
             });
             if (result === null) {
@@ -100,6 +98,26 @@ class CartController {
                 null,
                 300,
                 'Update  Failed!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[POST] /api/cart/deleteMultiCart
+    async deleteMultiCart(req, res) {
+        try {
+            for (var i = 0; i < req.body.lstCartId.length; i++) {
+                console.log(req.body.lstCartId[i]);
+                if (req.body.lstCartId[i].match(/^[0-9a-fA-F]{24}$/)) {
+                    console.log(req.body.lstCartId[i]);
+                    await CartService.findByIdAndRemove(req.body.lstCartId[i]);
+                }
+            }
+            return BaseController.sendSuccess(
+                res,
+                null,
+                200,
+                'Get Cart Success!',
             );
         } catch (e) {
             return BaseController.sendError(res, e.message);

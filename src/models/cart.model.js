@@ -16,10 +16,10 @@ const Cart = new Schema(
             type: Number,
             required: true,
         },
-        isOrdered: {
-            type: Boolean,
-            required: false,
-        },
+        // isOrdered: {
+        //     type: Boolean,
+        //     required: false,
+        // },
         idAccount: {
             type: String,
         },
