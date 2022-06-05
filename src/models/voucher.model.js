@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const Voucher = new Schema(
     {
+        title: {
+            type: String,
+            required: true,
+            default: '',
+        },
         voucherCode: {
             type: String,
             default: '',
