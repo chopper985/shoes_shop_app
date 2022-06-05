@@ -515,9 +515,7 @@ class OrderController {
                         }
                         var index = 0;
                         index = product.type.findIndex(
-                            (t) =>
-                                t.size === e.lstProduct.type.size &&
-                                t.color === e.lstProduct.type.color,
+                            (t) => t.size === e.lstProduct.type.size,
                         );
                         if (index !== -1) {
                             product.type[index].quantity += e.amount;

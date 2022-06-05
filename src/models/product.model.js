@@ -37,8 +37,6 @@ const Product = new Schema(
                 {
                     size: String,
                     quantity: Number,
-                    color: String,
-                    codeColor: String,
                 },
             ],
             default: [],
@@ -47,18 +45,6 @@ const Product = new Schema(
             type: Number,
             default: 0,
         },
-        // size: {
-        //     required: true,
-        //     type: String,
-        // },
-        // color: {
-        //     type: String,
-        //     required: true,
-        // },
-        // quantity: {
-        //     type: Number,
-        //     required: true,
-        // },
         idCompany: {
             type: String,
             required: true,

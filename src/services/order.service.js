@@ -87,9 +87,7 @@ class OrderService extends BaseService {
                 }
                 var index = 0;
                 index = product.type.findIndex(
-                    (t) =>
-                        t.size === lstCart[i].lstProduct.type.size &&
-                        t.color === lstCart[i].lstProduct.type.color,
+                    (t) => t.size === lstCart[i].lstProduct.type.size,
                 );
                 if (index !== -1) {
                     if (lstCart[i].amount <= product.type[index].quantity) {
