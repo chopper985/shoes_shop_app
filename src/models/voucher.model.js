@@ -8,6 +8,10 @@ const Voucher = new Schema(
             required: true,
             default: '',
         },
+        image: {
+            type: String,
+            default: '',
+        },
         voucherCode: {
             type: String,
             default: '',
