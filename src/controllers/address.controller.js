@@ -61,6 +61,32 @@ class AddressController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[GET] /api/address/getAddressDefaults
+    async getAddressDefault(req, res) {
+        try {
+            const result = await AddressService.getAddress({
+                idAccount: req.value.body.decodeToken._id,
+                status: true,
+                isDeleted: false,
+            });
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Address Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                result,
+                200,
+                'Get Address Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
     //[GET] /api/address/getAddress/{getId}
     async getAddress(req, res) {
         try {

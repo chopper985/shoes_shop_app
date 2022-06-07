@@ -28,7 +28,7 @@ const Address = new Schema(
             required: true,
         },
         phoneReciever: {
-            type: Number,
+            type: String,
             required: true,
         },
         idAccount: {

@@ -32,24 +32,27 @@ class VoucherController {
     //[GET] /api/voucher/getAllVoucher
     async getAllVoucher(req, res) {
         try {
-            VoucherService.getAllVoucher({ isDeleted: false }).then(
-                (voucher) => {
-                    if (voucher === null) {
-                        return BaseController.sendSuccess(
-                            res,
-                            null,
-                            300,
-                            'Get All Failed!',
-                        );
-                    }
+            VoucherService.getAllVoucher({
+                isDeleted: false,
+                expiry: {
+                    $gt: Date.now(),
+                },
+            }).then((voucher) => {
+                if (voucher === null) {
                     return BaseController.sendSuccess(
                         res,
-                        voucher,
-                        200,
-                        'Get All Success!',
+                        null,
+                        300,
+                        'Get All Failed!',
                     );
-                },
-            );
+                }
+                return BaseController.sendSuccess(
+                    res,
+                    voucher,
+                    200,
+                    'Get All Success!',
+                );
+            });
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }
@@ -87,6 +90,9 @@ class VoucherController {
         try {
             console.log(req.query.getId);
             const result = await VoucherService.getVoucher({
+                expiry: {
+                    $gt: Date.now(),
+                },
                 _id: req.query.getId,
                 isDeleted: false,
             });

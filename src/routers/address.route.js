@@ -4,6 +4,7 @@ const router = express.Router();
 const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
+router.get('/getAddressDefault', verifyToken, Controller.getAddressDefault);
 router.put('/update', verifyToken, Controller.updateAddress);
 router.put('/updateStatusDefault', verifyToken, Controller.updateStatusDefault);
 router.get('/', verifyToken, Controller.getAddress);
