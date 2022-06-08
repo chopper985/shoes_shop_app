@@ -32,12 +32,12 @@ class RateService extends BaseService {
             if (result === null) {
                 return 0;
             }
-            console.log(result);
+            // console.log(result);
             result.forEach((element) => {
                 rateNumber += element.rating;
             });
             rateNumber = rateNumber / result.length;
-            console.log(rateNumber);
+            console.log('RATEEEEEEEEEEEEEEEEEEEEEEEEEEEEENUMBER:' + rateNumber);
             return rateNumber;
         } catch (e) {
             console.log(e);

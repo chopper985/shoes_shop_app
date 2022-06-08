@@ -104,6 +104,24 @@ class RateController {
                     'Update  Failed!',
                 );
             }
+            var rateNumber = await RateService.getRateNumberByIdProduct(
+                req.body.idProduct,
+            );
+            const product = await ProductService.findOne({
+                _id: req.body.idProduct,
+                isDeleted: false,
+            });
+            if (product === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Product Failed!',
+                );
+            }
+            console.log(rateNumber);
+            product.rating = rateNumber;
+            product.save();
             return BaseController.sendSuccess(
                 res,
                 rate,
