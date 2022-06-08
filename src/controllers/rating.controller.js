@@ -52,7 +52,7 @@ class RateController {
                     return BaseController.sendSuccess(
                         res,
                         null,
-                        300,
+                        200,
                         'Get Null!',
                     );
                 }

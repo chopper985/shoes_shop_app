@@ -6,7 +6,7 @@ const admin = require('../validators/admin');
 
 router.put('/updateRateByAccount', verifyToken, Controller.updateRateByAccount);
 // router.get('/getRateNumberByIdProduct', verifyToken, Controller.getRateNumberByIdProduct);
-router.get(
+router.post(
     '/getRateProductByAccount',
     verifyToken,
     Controller.getRateProductByAccount,
