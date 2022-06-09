@@ -250,9 +250,9 @@ class OrderController {
                                                     payment.links[i].href;
                                                 return BaseController.sendSuccess(
                                                     res,
-                                                    null,
+                                                    resultPayment,
                                                     200,
-                                                    { link: resultPayment },
+                                                    'Success',
                                                 );
                                             }
                                         }
@@ -321,7 +321,7 @@ class OrderController {
 
                             return BaseController.sendSuccess(
                                 res,
-                                { link: vnpUrl },
+                                vnpUrl,
                                 200,
                                 'Success',
                             );
