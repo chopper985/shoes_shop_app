@@ -16,7 +16,7 @@ router.post(
     admin,
     Controller.getStatictisByYear,
 );
-router.get('/getOrderStatus', verifyToken, Controller.getOrderByStatus);
+router.post('/getOrderStatus', verifyToken, Controller.getOrderByStatus);
 router.put('/delete', verifyToken, admin, Controller.deleteOrder);
 router.get('/all', verifyToken, Controller.getAllOrder);
 router.post('/create', verifyToken, Controller.createOrder);
