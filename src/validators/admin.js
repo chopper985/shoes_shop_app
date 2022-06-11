@@ -11,7 +11,7 @@ const admin = (req, res, next) => {
             return BaseController.sendSuccess(
                 res,
                 null,
-                201,
+                200,
                 'Unauthorization!',
             );
         }

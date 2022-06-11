@@ -12,10 +12,10 @@ class BaseService {
         return this._model.findByIdAndUpdate(id, item, { new: true });
     }
     async findAll() {
-        return this._model.find();
+        return this._model.find().sort({ updatedAt: -1 });
     }
     async search(filter = {}) {
-        return this._model.find(filter);
+        return this._model.find(filter).sort({ updatedAt: -1 });
     }
     async create(item) {
         return this._model.create(item);
@@ -35,7 +35,7 @@ class BaseService {
     async getLimitSkip(filter = {}, limit, skip) {
         return this._model
             .find(filter)
-            .sort({ createdAt: -1 })
+            .sort({ updatedAt: -1 })
             .skip(Number(limit) * Number(skip) - Number(limit))
             .limit(Number(limit));
     }
