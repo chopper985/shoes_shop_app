@@ -328,7 +328,7 @@ class OrderController {
                         } else {
                             return BaseController.sendSuccess(
                                 res,
-                                result,
+                                'Success',
                                 200,
                                 'Create Order Success!',
                             );
