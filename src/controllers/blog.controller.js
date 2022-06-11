@@ -124,6 +124,28 @@ class BlogController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[Get] /api/blog/getDifferentBlogs
+    async getDifferentBlogs(req, res) {
+        try {
+            const result = await BlogService.getDifferentBlogs(req.query.getId);
+            if (result === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Get Blogs Failed!',
+                );
+            }
+            return BaseController.sendSuccess(
+                res,
+                result,
+                200,
+                'Get Blogs Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
 }
 
 module.exports = new BlogController();

@@ -30,6 +30,17 @@ class BlogService extends BaseService {
             return null;
         }
     }
+    async getDifferentBlogs(id) {
+        try {
+            const result = await this.getNew(
+                { isDeleted: false, _id: { $ne: id } },
+                { updatedAt: -1 },
+            );
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async updateBlog(id, item) {
         try {
             const result = await this.findByIdAndUpdate(id, item);

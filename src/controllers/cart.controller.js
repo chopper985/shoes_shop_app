@@ -6,24 +6,40 @@ class CartController {
     //[POST] /api/cart/create
     async createCart(req, res) {
         try {
-            console.log(req.body);
-            const result = await CartService.create(req.body);
-            result.idAccount = req.value.body.decodeToken._id;
-            result.save();
-            if (result === null) {
+            const check = await CartService.findOne({
+                idAccount: req.value.body.decodeToken._id,
+                lstProduct: req.body.lstProduct,
+                isDeleted: false,
+            });
+            if (check === null) {
+                console.log(req.body);
+                const result = await CartService.create(req.body);
+                result.idAccount = req.value.body.decodeToken._id;
+                result.save();
+                if (result === null) {
+                    return BaseController.sendSuccess(
+                        res,
+                        null,
+                        300,
+                        'Create Cart Failed!',
+                    );
+                }
                 return BaseController.sendSuccess(
                     res,
-                    null,
-                    300,
-                    'Create Cart Failed!',
+                    result,
+                    200,
+                    'Create Cart Success!',
+                );
+            } else {
+                check.amount += 1;
+                check.save();
+                return BaseController.sendSuccess(
+                    res,
+                    check,
+                    200,
+                    'Add Cart Success!',
                 );
             }
-            return BaseController.sendSuccess(
-                res,
-                result,
-                200,
-                'Create Cart Success!',
-            );
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

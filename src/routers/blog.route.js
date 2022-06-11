@@ -4,6 +4,7 @@ const router = express.Router();
 const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 
+router.get('/getDifferentBlogs', Controller.getDifferentBlogs);
 router.put('/update', verifyToken, admin, Controller.updateBlog);
 router.get('/', Controller.getBlog);
 router.put('/delete', verifyToken, admin, Controller.deleteBlog);
