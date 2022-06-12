@@ -163,7 +163,7 @@ class AccountController {
             });
             if (user) {
                 const dateSendOTP = new Date(user.isCreatedOtp);
-                const dateSubmitOTP = new Date(req.body.time);
+                const dateSubmitOTP = new Date(Date.now());
                 const difference = Math.abs(dateSubmitOTP - dateSendOTP);
                 const minute = difference / (1000 * 60);
                 if (minute >= 0 && minute <= 3) {
