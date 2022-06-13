@@ -10,7 +10,7 @@ class BlogController {
             console.log(req.body.nameCompany);
             var image = await BaseController.UploadImage(
                 req.files['Image'][0].filename,
-                'Product/',
+                'Blog/',
             );
             console.log(image);
             if (image === null) {
