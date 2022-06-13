@@ -99,10 +99,26 @@ class CompanyController {
     //[POST] /api/company/update
     async updateCompany(req, res) {
         try {
+            // var image = await BaseController.UploadImage(
+            //     req.files['Image'][0].filename,
+            //     'Company/',
+            // );
+            // console.log(image);
+
+            // if (image === null) {
+            //     return BaseController.sendSuccess(
+            //         res,
+            //         null,
+            //         300,
+            //         'Upload Image Failed!',
+            //     );
+            // }
             const company = await CompanyService.updateCompany(
                 req.body._id,
                 req.body,
             );
+            // company.logoCompany = image;
+            // company.save();
             if (company === null) {
                 return BaseController.sendSuccess(
                     res,

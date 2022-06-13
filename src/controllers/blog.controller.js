@@ -6,6 +6,21 @@ class BlogController {
     //[POST] /api/blog/create
     async createBlog(req, res) {
         try {
+            console.log(req.files['Image'][0].filename);
+            console.log(req.body.nameCompany);
+            var image = await BaseController.UploadImage(
+                req.files['Image'][0].filename,
+                'Product/',
+            );
+            console.log(image);
+            if (image === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Upload Image Failed!',
+                );
+            }
             const result = await BlogService.create(req.body);
             if (result === null) {
                 return BaseController.sendSuccess(
@@ -15,6 +30,8 @@ class BlogController {
                     'Create Blog Failed!',
                 );
             }
+            result.imageBlog = image;
+            result.save();
             return BaseController.sendSuccess(
                 res,
                 result,

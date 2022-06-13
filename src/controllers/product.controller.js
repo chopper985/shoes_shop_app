@@ -7,6 +7,21 @@ class ProductController {
     //[POST] /api/product/create
     async createProduct(req, res) {
         try {
+            console.log(req.files['Image'][0].filename);
+            console.log(req.body.nameCompany);
+            var image = await BaseController.UploadImage(
+                req.files['Image'][0].filename,
+                'Product/',
+            );
+            console.log(image);
+            if (image === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Upload Image Failed!',
+                );
+            }
             const result = await ProductService.create(req.body);
             if (result === null) {
                 return BaseController.sendSuccess(
@@ -16,6 +31,8 @@ class ProductController {
                     'Create Product Failed!',
                 );
             }
+            result.imageProduct[0] = image;
+            result.save();
             return BaseController.sendSuccess(
                 res,
                 result,
