@@ -6,7 +6,28 @@ class CompanyController {
     //[POST] /api/company/create
     async createCompany(req, res) {
         try {
-            const result = await CompanyService.create(req.body);
+            console.log(req.files['Image'][0].filename);
+            console.log(req.body.nameCompany);
+            var image = await BaseController.UploadImage(
+                req.files['Image'][0].filename,
+                'Company/',
+            );
+            console.log(image);
+
+            if (image === null) {
+                return BaseController.sendSuccess(
+                    res,
+                    null,
+                    300,
+                    'Upload Image Failed!',
+                );
+            }
+            const result = await CompanyService.create({
+                nameCompany: req.body.nameCompany,
+                logoCompany: image,
+            });
+            result.logoCompany = image;
+            result.save();
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
