@@ -7,25 +7,25 @@ class VoucherController {
     //[POST] /api/voucher/create
     async createVoucher(req, res) {
         try {
-            console.log(req.files['Image'][0].filename);
-            console.log(req.body.nameCompany);
-            var image = await BaseController.UploadImage(
-                req.files['Image'][0].filename,
-                'Voucher/',
-            );
-            console.log(image);
-            if (image === null) {
-                return BaseController.sendSuccess(
-                    res,
-                    null,
-                    300,
-                    'Upload Image Failed!',
-                );
-            }
+            // console.log(req.files['Image'][0].filename);
+            // console.log(req.body.nameCompany);
+            // var image = await BaseController.UploadImage(
+            //     req.files['Image'][0].filename,
+            //     'Voucher/',
+            // );
+            // console.log(image);
+            // if (image === null) {
+            //     return BaseController.sendSuccess(
+            //         res,
+            //         null,
+            //         300,
+            //         'Upload Image Failed!',
+            //     );
+            // }
             const result = await VoucherService.create(req.body);
             const voucherCode = randomString(6);
             result.voucherCode = voucherCode;
-            result.image = image;
+            // result.image = image;
             result.save();
             if (result === null) {
                 return BaseController.sendSuccess(

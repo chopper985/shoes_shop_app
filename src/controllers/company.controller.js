@@ -3,14 +3,14 @@ const BaseController = require('./baseController');
 
 class CompanyController {
     constructor() {}
-    //[POST] /api/company/create
-    async createCompany(req, res) {
+    //[POST] /api/company/getImages
+    async getImage(req, res) {
         try {
             console.log(req.files['Image'][0].filename);
             console.log(req.body.nameCompany);
             var image = await BaseController.UploadImage(
                 req.files['Image'][0].filename,
-                'Company/',
+                'Image/',
             );
             console.log(image);
 
@@ -22,12 +22,42 @@ class CompanyController {
                     'Upload Image Failed!',
                 );
             }
+
+            return BaseController.sendSuccess(
+                res,
+                image,
+                200,
+                'Create Company Success!',
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
+    //[POST] /api/company/create
+    async createCompany(req, res) {
+        try {
+            // console.log(req.files['Image'][0].filename);
+            // console.log(req.body.nameCompany);
+            // var image = await BaseController.UploadImage(
+            //     req.files['Image'][0].filename,
+            //     'Company/',
+            // );
+            // console.log(image);
+
+            // if (image === null) {
+            //     return BaseController.sendSuccess(
+            //         res,
+            //         null,
+            //         300,
+            //         'Upload Image Failed!',
+            //     );
+            // }
             const result = await CompanyService.create({
                 nameCompany: req.body.nameCompany,
-                logoCompany: image,
+                logoCompany: req.body.logoCompany,
             });
-            result.logoCompany = image;
-            result.save();
+            // result.logoCompany = image;
+            // result.save();
             if (result === null) {
                 return BaseController.sendSuccess(
                     res,
