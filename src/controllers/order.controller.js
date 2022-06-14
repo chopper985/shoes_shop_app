@@ -353,18 +353,20 @@ class OrderController {
             if (req.value.body.decodeToken.role === 'ADMIN') {
                 OrderService.getAllOrder({
                     isDeleted: false,
-                }).then((product) => {
-                    if (product === null) {
-                        return BaseController.sendSuccess(
+                }).then((order) => {
+                    if (order === null) {
+                        return BaseController.sendSuccessTotal(
                             res,
                             null,
+                            0,
                             300,
                             'Get All Failed!',
                         );
                     }
-                    return BaseController.sendSuccess(
+                    return BaseController.sendSuccessTotal(
                         res,
-                        product,
+                        order,
+                        order.length,
                         200,
                         'Get All Success!',
                     );
@@ -373,8 +375,8 @@ class OrderController {
                 OrderService.getAllOrder({
                     idAccount: req.value.body.decodeToken._id,
                     isDeleted: false,
-                }).then((product) => {
-                    if (product === null) {
+                }).then((order) => {
+                    if (order === null) {
                         return BaseController.sendSuccess(
                             res,
                             null,
@@ -384,7 +386,7 @@ class OrderController {
                     }
                     return BaseController.sendSuccess(
                         res,
-                        product,
+                        order,
                         200,
                         'Get All Success!',
                     );
@@ -403,16 +405,18 @@ class OrderController {
                     isDeleted: false,
                 });
                 if (result === null) {
-                    return BaseController.sendSuccess(
+                    return BaseController.sendSuccessTotal(
                         res,
                         null,
+                        0,
                         300,
                         'Get Order Failed!',
                     );
                 }
-                return BaseController.sendSuccess(
+                return BaseController.sendSuccessTotal(
                     res,
                     result,
+                    result.length,
                     200,
                     'Get Order Success!',
                 );

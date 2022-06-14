@@ -22,6 +22,15 @@ class OrderService extends BaseService {
             return null;
         }
     }
+    async countOrder() {
+        try {
+            const result = await this.count();
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+
     async getOrder(filter = {}) {
         try {
             const result = await this.findOne(filter);

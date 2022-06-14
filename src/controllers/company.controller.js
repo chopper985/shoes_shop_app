@@ -76,6 +76,33 @@ class CompanyController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[GET] /api/company/getAllCompanyByAdmin
+    async getAllCompanyByAdmin(req, res) {
+        try {
+            CompanyService.getAllCompany({ isDeleted: false }).then(
+                (company) => {
+                    if (company === null) {
+                        return BaseController.sendSuccessTotal(
+                            res,
+                            null,
+                            0,
+                            300,
+                            'Get All Failed!',
+                        );
+                    }
+                    return BaseController.sendSuccessTotal(
+                        res,
+                        company,
+                        company.length,
+                        200,
+                        'Get All Success!',
+                    );
+                },
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
     //[GET] /api/company/getAllCompany
     async getAllCompany(req, res) {
         try {

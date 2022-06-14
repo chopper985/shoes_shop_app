@@ -22,6 +22,14 @@ class VoucherService extends BaseService {
             return null;
         }
     }
+    async countVoucher(filter = {}) {
+        try {
+            const result = await this.countFilter(filter);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async getVoucher(filter = {}) {
         try {
             const result = await this.findOne(filter);

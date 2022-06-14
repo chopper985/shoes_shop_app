@@ -22,6 +22,14 @@ class CompanyService extends BaseService {
             return null;
         }
     }
+    async countCompany() {
+        try {
+            const result = await this.count();
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async getCompany(filter = {}) {
         try {
             const result = await this.findOne(filter);

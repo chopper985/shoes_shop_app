@@ -48,27 +48,50 @@ class VoucherController {
     //[GET] /api/voucher/getAllVoucher
     async getAllVoucher(req, res) {
         try {
-            VoucherService.getAllVoucher({
-                isDeleted: false,
-                expiry: {
-                    $gt: Date.now(),
-                },
-            }).then((voucher) => {
-                if (voucher === null) {
+            if (req.value.body.decodeToken.role === 'ADMIN') {
+                VoucherService.getAllVoucher({
+                    isDeleted: false,
+                }).then(async (voucher) => {
+                    if (voucher === null) {
+                        return BaseController.sendSuccessTotal(
+                            res,
+                            null,
+                            0,
+                            300,
+                            'Get All Failed!',
+                        );
+                    }
+                    return BaseController.sendSuccessTotal(
+                        res,
+                        voucher,
+                        voucher.length,
+                        200,
+                        'Get All Success!',
+                    );
+                });
+            } else {
+                VoucherService.getAllVoucher({
+                    isDeleted: false,
+                    expiry: {
+                        $gt: Date.now(),
+                    },
+                }).then(async (voucher) => {
+                    if (voucher === null) {
+                        return BaseController.sendSuccess(
+                            res,
+                            null,
+                            300,
+                            'Get All Failed!',
+                        );
+                    }
                     return BaseController.sendSuccess(
                         res,
-                        null,
-                        300,
-                        'Get All Failed!',
+                        voucher,
+                        200,
+                        'Get All Success!',
                     );
-                }
-                return BaseController.sendSuccess(
-                    res,
-                    voucher,
-                    200,
-                    'Get All Success!',
-                );
-            });
+                });
+            }
         } catch (e) {
             return BaseController.sendError(res, e.message);
         }

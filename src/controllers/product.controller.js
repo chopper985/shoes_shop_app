@@ -49,16 +49,18 @@ class ProductController {
             ProductService.getAllProduct({ isDeleted: false }).then(
                 (product) => {
                     if (product === null) {
-                        return BaseController.sendSuccess(
+                        return BaseController.sendSuccessProduct(
                             res,
                             null,
+                            0,
                             300,
                             'Get All Failed!',
                         );
                     }
-                    return BaseController.sendSuccess(
+                    return BaseController.sendSuccessProduct(
                         res,
                         product,
+                        product.length,
                         200,
                         'Get All Success!',
                     );

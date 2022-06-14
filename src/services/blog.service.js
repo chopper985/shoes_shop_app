@@ -22,6 +22,15 @@ class BlogService extends BaseService {
             return null;
         }
     }
+    async getAll(filter = {}) {
+        try {
+            const result = await this.findAll(filter);
+            console.log(result);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async getBlog(filter = {}) {
         try {
             const result = await this.findOne(filter);
@@ -52,6 +61,14 @@ class BlogService extends BaseService {
     async deleteBlog(id) {
         try {
             const result = await this.findByIdAndRemove(id);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
+    async countBlog() {
+        try {
+            const result = await this.count();
             return result;
         } catch (e) {
             return null;

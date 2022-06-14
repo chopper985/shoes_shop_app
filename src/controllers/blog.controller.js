@@ -42,6 +42,33 @@ class BlogController {
             return BaseController.sendError(res, e.message);
         }
     }
+    //[GET] /api/blog/getAllBlogByAdmin
+    async getAllBlogByAdmin(req, res) {
+        try {
+            await BlogService.getAllBlog({ isDeleted: false }, null, null).then(
+                (blogs) => {
+                    if (blogs === null) {
+                        return BaseController.sendSuccessTotal(
+                            res,
+                            null,
+                            0,
+                            300,
+                            'Get All Failed!',
+                        );
+                    }
+                    return BaseController.sendSuccessTotal(
+                        res,
+                        blogs,
+                        blogs.length,
+                        200,
+                        'Get All Success!',
+                    );
+                },
+            );
+        } catch (e) {
+            return BaseController.sendError(res, e.message);
+        }
+    }
     //[GET] /api/blog/getAllBlog
     async getAllBlog(req, res) {
         try {
@@ -49,8 +76,8 @@ class BlogController {
                 { isDeleted: false },
                 req.body.limit,
                 req.body.skip,
-            ).then((voucher) => {
-                if (voucher === null) {
+            ).then((blogs) => {
+                if (blogs === null) {
                     return BaseController.sendSuccess(
                         res,
                         null,
@@ -60,7 +87,7 @@ class BlogController {
                 }
                 return BaseController.sendSuccess(
                     res,
-                    voucher,
+                    blogs,
                     200,
                     'Get All Success!',
                 );

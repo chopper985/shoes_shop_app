@@ -13,7 +13,7 @@ router.post(
     Controller.getVoucherByVoucherCode,
 );
 router.put('/delete', verifyToken, admin, Controller.deleteVoucher);
-router.get('/all', verifyToken, admin, Controller.getAllVoucher);
+router.get('/all', verifyToken, Controller.getAllVoucher);
 router.post('/create', verifyToken, admin, Controller.createVoucher);
 
 module.exports = router;

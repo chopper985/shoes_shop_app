@@ -5,6 +5,12 @@ const verifyToken = require('../validators/verify');
 const admin = require('../validators/admin');
 // const cpUpload = require('../validators/uploadImage');
 
+router.get(
+    '/getAllBlogByAdmin',
+    verifyToken,
+    admin,
+    Controller.getAllBlogByAdmin,
+);
 router.get('/getDifferentBlogs', Controller.getDifferentBlogs);
 router.put('/update', verifyToken, admin, Controller.updateBlog);
 router.get('/', Controller.getBlog);
