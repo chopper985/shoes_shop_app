@@ -72,9 +72,9 @@ class VoucherController {
             } else {
                 VoucherService.getAllVoucher({
                     isDeleted: false,
-                    // quantity: {
-                    //     $gt: 0,
-                    // },
+                    quantity: {
+                        $gt: 0,
+                    },
                     expiry: {
                         $gt: Date.now(),
                     },
