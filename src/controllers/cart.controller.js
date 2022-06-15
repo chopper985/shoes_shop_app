@@ -31,7 +31,7 @@ class CartController {
                     'Create Cart Success!',
                 );
             } else {
-                check.amount += 1;
+                check.amount += req.body.amount;
                 check.save();
                 return BaseController.sendSuccess(
                     res,
