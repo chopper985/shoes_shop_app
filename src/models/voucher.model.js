@@ -31,7 +31,7 @@ const Voucher = new Schema(
             default: new Date(),
         },
         quantity: {
-            type: Date,
+            type: Number,
             required: true,
             default: 0,
         },

@@ -9,8 +9,8 @@ exports.paymentMethod = async (price, idOrder, next) => {
             payment_method: 'paypal',
         },
         redirect_urls: {
-            return_url: `http://127.0.0.1:3000/api/order/success?price=${price}&idDonHang=${idOrder}`,
-            cancel_url: `http://127.0.0.1:3000/api/order/cancel`,
+            return_url: `https://lt-shoes-shop.herokuapp.com/api/order/success?price=${price}&idDonHang=${idOrder}`,
+            cancel_url: `https://lt-shoes-shop.herokuapp.com/api/order/cancel`,
         },
         transactions: [
             {

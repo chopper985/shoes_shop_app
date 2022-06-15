@@ -270,7 +270,7 @@ class OrderController {
                             var vnpUrl =
                                 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
                             var returnUrl =
-                                'http://127.0.0.1:3000/api/order/successVnPay';
+                                'https://lt-shoes-shop.herokuapp.com/api/order/successVnPay';
                             var date = new Date();
                             var createDate =
                                 date.getFullYear() +
