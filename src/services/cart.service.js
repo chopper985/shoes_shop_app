@@ -29,6 +29,14 @@ class CartService extends BaseService {
             return null;
         }
     }
+    async getCartById(id) {
+        try {
+            const result = await this.findById(id);
+            return result;
+        } catch (e) {
+            return null;
+        }
+    }
     async updateCart(id, item) {
         try {
             const result = await this.findByIdAndUpdate(id, item);

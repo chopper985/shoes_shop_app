@@ -98,8 +98,9 @@ class CartController {
     //[POST] /api/cart/update
     async updateAmountCart(req, res) {
         try {
-            const cart = await CartService.getCart(req.body._id);
-            if (cart) {
+            const cart = await CartService.getCartById(req.body._id);
+            console.log(cart);
+            if (cart !== null) {
                 cart.amount = req.body.amount;
                 cart.save();
                 return BaseController.sendSuccess(
