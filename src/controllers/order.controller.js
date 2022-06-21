@@ -21,6 +21,7 @@ const {
     cancelPayment,
     RefundPayment,
 } = require('../validators/payment');
+const orderService = require('../services/order.service');
 
 class OrderController {
     constructor() {}
@@ -42,7 +43,13 @@ class OrderController {
         var signed = hmac
             .update(new Buffer.from(signData, 'utf-8'))
             .digest('hex');
-
+        const order = await orderService.getOrderById(id);
+        if (order === null) {
+            return BaseController.sendSuccess(res, null, 404, 'Not Order!');
+        }
+        order.statusPayment = true;
+        order.save();
+        F;
         if (secureHash === signed) {
             res.send({
                 message: 'Success',
@@ -77,14 +84,17 @@ class OrderController {
                 if (error) {
                     res.send('Payment Fail');
                 } else {
-                    await orderModel.findOneAndUpdate(
-                        { _id: idDonHang },
-                        update,
-                        {
-                            new: true,
-                        },
-                    );
-
+                    const order = await orderService.getOrderById(idDonHang);
+                    if (order === null) {
+                        return BaseController.sendSuccess(
+                            res,
+                            null,
+                            404,
+                            'Not Order!',
+                        );
+                    }
+                    order.statusPayment = true;
+                    order.save();
                     await paypalModel.create({
                         idOrder: idDonHang,
                         Transaction: price,
