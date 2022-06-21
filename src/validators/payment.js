@@ -46,7 +46,6 @@ exports.RefundPayment = async (idOrder, next) => {
             currency: 'USD',
         },
     };
-
     paypal.sale.refund(
         resultPaypal.idPaypal,
         data,
