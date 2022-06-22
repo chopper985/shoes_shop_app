@@ -53,8 +53,8 @@ class OrderController {
         if (secureHash === signed) {
             res.send({
                 message: 'Success',
-                paymentId: id,
-                amount: amount,
+                // paymentId: id,
+                // amount: amount,
             });
         } else {
             res.status(200).json({ code: '97', data: req.query });
