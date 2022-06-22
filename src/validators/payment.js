@@ -54,7 +54,6 @@ exports.RefundPayment = async (idOrder, next) => {
         },
     );
 };
-
 exports.cancelPayment = (req, res, next) => {
     res.send('Payment is canceled');
 };
