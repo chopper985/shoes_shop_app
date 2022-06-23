@@ -10,6 +10,12 @@ const Account = new Schema(
         avatar: {
             type: String,
         },
+        gender: {
+            type: Boolean,
+        },
+        birthday: {
+            type: String,
+        },
         phoneNumber: {
             type: String,
             required: true,
