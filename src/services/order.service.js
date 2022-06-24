@@ -1,6 +1,7 @@
 const orderModel = require('../models/order.model');
 const BaseService = require('../services/baseService');
 const ProductService = require('../services/product.service');
+const BaseController = require('../controllers/baseController');
 
 class OrderService extends BaseService {
     constructor() {
@@ -86,6 +87,7 @@ class OrderService extends BaseService {
                     _id: lstCart[i].lstProduct._id,
                     isDeleted: false,
                 });
+                console.log(product);
                 if (product === null) {
                     return BaseController.sendSuccess(
                         res,

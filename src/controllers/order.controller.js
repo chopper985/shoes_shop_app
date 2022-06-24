@@ -49,7 +49,7 @@ class OrderController {
         }
         order.statusPayment = true;
         order.save();
-        F;
+
         if (secureHash === signed) {
             res.send({
                 message: 'Success',
@@ -104,10 +104,10 @@ class OrderController {
                     });
                     res.send({
                         message: 'Success',
-                        paymentId:
-                            payment.transactions[0].related_resources[0].sale
-                                .id,
-                        id_Order: idDonHang,
+                        // paymentId:
+                        //     payment.transactions[0].related_resources[0].sale
+                        //         .id,
+                        // id_Order: idDonHang,
                     });
                 }
             },
