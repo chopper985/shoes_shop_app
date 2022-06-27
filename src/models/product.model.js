@@ -16,6 +16,12 @@ const Product = new Schema(
             required: true,
             default: '',
         },
+        listImageDetail: {
+            type: Array,
+        },
+        style: {
+            type: String,
+        },
         descriptionVi: {
             type: String,
             required: true,
