@@ -183,7 +183,7 @@ class OrderController {
                             });
                         result.totalPrice =
                             result.totalPriceProduct -
-                            result.totalDiscount -
+                            result.totalDiscount +
                             result.totalShipping;
                         console.log(result.totalPrice);
                         console.log(result.totalPriceProduct);
