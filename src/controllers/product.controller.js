@@ -290,8 +290,35 @@ class ProductController {
             console.log(req.body.nameProductVi);
             console.log(req.body.idCompany);
             console.log(req.body.style);
-            result = await ProductService.getProductByName(
-                {
+            //1
+            if (
+                req.body.style !== undefined &&
+                req.body.idCompany !== undefined &&
+                req.body.nameProductVi !== undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        idCompany: req.body.idCompany,
+                        style: req.body.style,
+                        nameProductVi: {
+                            $regex: req.body.nameProductVi,
+                            $options: 'i',
+                        },
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                totalProduct = await ProductService.countProductByCompany({
                     idCompany: req.body.idCompany,
                     style: req.body.style,
                     nameProductVi: {
@@ -299,28 +326,216 @@ class ProductController {
                         $options: 'i',
                     },
                     isDeleted: false,
-                },
-                req.body.limit,
-                req.body.skip,
-            );
-            totalProduct = await ProductService.countProductByCompany({
-                idCompany: req.body.idCompany,
-                style: req.body.style,
-                nameProductVi: {
-                    $regex: req.body.nameProductVi,
-                    $options: 'i',
-                },
-                isDeleted: false,
-            });
-            if (result === null) {
-                return BaseController.sendSuccessProduct(
-                    res,
-                    null,
-                    0,
-                    404,
-                    'Not Found Product!',
+                });
+            } //2
+            else if (
+                req.body.style !== undefined &&
+                req.body.idCompany !== undefined &&
+                req.body.nameProductVi === undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        idCompany: req.body.idCompany,
+                        style: req.body.style,
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
                 );
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                totalProduct = await ProductService.countProductByCompany({
+                    idCompany: req.body.idCompany,
+                    style: req.body.style,
+                    isDeleted: false,
+                });
+            } //3
+            else if (
+                req.body.style !== undefined &&
+                req.body.idCompany === undefined &&
+                req.body.nameProductVi !== undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        style: req.body.style,
+                        nameProductVi: {
+                            $regex: req.body.nameProductVi,
+                            $options: 'i',
+                        },
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                totalProduct = await ProductService.countProductByCompany({
+                    style: req.body.style,
+                    nameProductVi: {
+                        $regex: req.body.nameProductVi,
+                        $options: 'i',
+                    },
+                    isDeleted: false,
+                });
+            } //4
+            else if (
+                req.body.style === undefined &&
+                req.body.idCompany !== undefined &&
+                req.body.nameProductVi !== undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        idCompany: req.body.idCompany,
+                        nameProductVi: {
+                            $regex: req.body.nameProductVi,
+                            $options: 'i',
+                        },
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                totalProduct = await ProductService.countProductByCompany({
+                    idCompany: req.body.idCompany,
+                    nameProductVi: {
+                        $regex: req.body.nameProductVi,
+                        $options: 'i',
+                    },
+                    isDeleted: false,
+                });
+            } //5
+            else if (
+                req.body.style === undefined &&
+                req.body.idCompany === undefined &&
+                req.body.nameProductVi !== undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        nameProductVi: {
+                            $regex: req.body.nameProductVi,
+                            $options: 'i',
+                        },
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                totalProduct = await ProductService.countProductByCompany({
+                    nameProductVi: {
+                        $regex: req.body.nameProductVi,
+                        $options: 'i',
+                    },
+                    isDeleted: false,
+                });
+            } //6
+            else if (
+                req.body.style === undefined &&
+                req.body.idCompany !== undefined &&
+                req.body.nameProductVi === undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        idCompany: req.body.idCompany,
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                totalProduct = await ProductService.countProductByCompany({
+                    idCompany: req.body.idCompany,
+                    isDeleted: false,
+                });
+            } //7
+            else if (
+                req.body.style !== undefined &&
+                req.body.idCompany === undefined &&
+                req.body.nameProductVi === undefined
+            ) {
+                result = await ProductService.getProductByName(
+                    {
+                        style: req.body.style,
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                totalProduct = await ProductService.countProductByCompany({
+                    style: req.body.style,
+                    isDeleted: false,
+                });
+            } //8
+            else {
+                result = await ProductService.getProductByName(
+                    {
+                        isDeleted: false,
+                    },
+                    req.body.limit,
+                    req.body.skip,
+                );
+                if (result === null) {
+                    return BaseController.sendSuccessProduct(
+                        res,
+                        null,
+                        0,
+                        404,
+                        'Not Found Product!',
+                    );
+                }
+                totalProduct = await ProductService.countProductByCompany({
+                    isDeleted: false,
+                });
             }
+
             return BaseController.sendSuccessProduct(
                 res,
                 result,
