@@ -292,9 +292,9 @@ class ProductController {
             console.log(req.body.style);
             //1
             if (
-                req.body.style !== undefined &&
-                req.body.idCompany !== undefined &&
-                req.body.nameProductVi !== undefined
+                req.body.style !== '' &&
+                req.body.idCompany !== '' &&
+                req.body.nameProductVi !== ''
             ) {
                 result = await ProductService.getProductByName(
                     {
@@ -329,9 +329,9 @@ class ProductController {
                 });
             } //2
             else if (
-                req.body.style !== undefined &&
-                req.body.idCompany !== undefined &&
-                req.body.nameProductVi === undefined
+                req.body.style !== '' &&
+                req.body.idCompany !== '' &&
+                req.body.nameProductVi === ''
             ) {
                 result = await ProductService.getProductByName(
                     {
@@ -358,9 +358,9 @@ class ProductController {
                 });
             } //3
             else if (
-                req.body.style !== undefined &&
-                req.body.idCompany === undefined &&
-                req.body.nameProductVi !== undefined
+                req.body.style !== '' &&
+                req.body.idCompany === '' &&
+                req.body.nameProductVi !== ''
             ) {
                 result = await ProductService.getProductByName(
                     {
@@ -393,9 +393,9 @@ class ProductController {
                 });
             } //4
             else if (
-                req.body.style === undefined &&
-                req.body.idCompany !== undefined &&
-                req.body.nameProductVi !== undefined
+                req.body.style === '' &&
+                req.body.idCompany !== '' &&
+                req.body.nameProductVi !== ''
             ) {
                 result = await ProductService.getProductByName(
                     {
@@ -428,9 +428,9 @@ class ProductController {
                 });
             } //5
             else if (
-                req.body.style === undefined &&
-                req.body.idCompany === undefined &&
-                req.body.nameProductVi !== undefined
+                req.body.style === '' &&
+                req.body.idCompany === '' &&
+                req.body.nameProductVi !== ''
             ) {
                 result = await ProductService.getProductByName(
                     {
@@ -461,9 +461,9 @@ class ProductController {
                 });
             } //6
             else if (
-                req.body.style === undefined &&
-                req.body.idCompany !== undefined &&
-                req.body.nameProductVi === undefined
+                req.body.style === '' &&
+                req.body.idCompany !== '' &&
+                req.body.nameProductVi === ''
             ) {
                 result = await ProductService.getProductByName(
                     {
@@ -488,9 +488,9 @@ class ProductController {
                 });
             } //7
             else if (
-                req.body.style !== undefined &&
-                req.body.idCompany === undefined &&
-                req.body.nameProductVi === undefined
+                req.body.style !== '' &&
+                req.body.idCompany === '' &&
+                req.body.nameProductVi === ''
             ) {
                 result = await ProductService.getProductByName(
                     {
